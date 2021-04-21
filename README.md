@@ -69,3 +69,17 @@ export const setUserEmailAddress = (emailAddress: string): void => {
   else $crisp.push(['set', 'user:email', [emailAddress]]);
 };
 ```
+
+### Available Methods for JS
+### More can be added. Feel free to open an issue with the SDK and I can advise at my earliest. 
+
+```
+CrispLiveSupport.openMessenger();
+CrispLiveSupport.setUserEmail({ emailAddress: emailAddress });
+CrispLiveSupport.setUserNickname({ nickname: nickname });
+CrispLiveSupport.setUserPhoneNumber({phoneNumber: phoneNumber});
+CrispLiveSupport.setCustomAttribute({
+  key: 'key',
+  value: 'value',
+});
+```
