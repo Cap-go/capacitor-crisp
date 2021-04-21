@@ -1,0 +1,29 @@
+PODS:
+  - Capacitor (2.4.7):
+    - CapacitorCordova
+  - CapacitorCordova (2.4.7)
+  - Crisp (1.0.12)
+
+DEPENDENCIES:
+  - "Capacitor (from `../node_modules/@capacitor/ios`)"
+  - "CapacitorCordova (from `../node_modules/@capacitor/ios`)"
+  - Crisp
+
+SPEC REPOS:
+  trunk:
+    - Crisp
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../node_modules/@capacitor/ios"
+  CapacitorCordova:
+    :path: "../node_modules/@capacitor/ios"
+
+SPEC CHECKSUMS:
+  Capacitor: 4cd7b342d5a15b1f6f333d687358953afd7b2d8b
+  CapacitorCordova: 2c9d6e28d9d86c4da087fa2c3537c1841954bb12
+  Crisp: 6f04a46b1955e707cddad9f39922359ab09a0a1c
+
+PODFILE CHECKSUM: 483a2d4ab5642ea72bfb172818d317027ca005d9
+
+COCOAPODS: 1.9.1
