@@ -10,7 +10,7 @@ import Crisp
 public class CrispLiveSupport: CAPPlugin {
       @objc override public func load() {
         // Called when the plugin is first constructed in the bridge
-        print("CRISP STARTED!")
+        print("Crisp SDK Initialized")
     }
 
     @objc func echo(_ call: CAPPluginCall) {
@@ -22,11 +22,8 @@ public class CrispLiveSupport: CAPPlugin {
     @objc func openMessenger(_ call: CAPPluginCall) {
         print("Swift invoked --- opening Crisp Widget")
         DispatchQueue.main.async {
-          self.bridge.viewController.present(ChatViewController(), animated: true, completion: nil)
+            self.bridge?.viewController?.present(ChatViewController(), animated: true, completion: nil)
         }
-        call.success([
-            "value": "HERE"
-        ])
     }
     @objc func setUserEmail(_ call: CAPPluginCall) {
         let emailAddress = call.getString("emailAddress") ?? ""
