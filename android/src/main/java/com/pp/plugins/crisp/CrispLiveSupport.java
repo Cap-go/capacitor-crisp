@@ -3,7 +3,7 @@ package com.pp.plugins.crisp;
 import android.content.Intent;
 
 import com.getcapacitor.JSObject;
-import com.getcapacitor.NativePlugin;
+import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -12,12 +12,15 @@ import im.crisp.client.ChatActivity;
 import im.crisp.client.Crisp;
 import im.crisp.client.data.Company;
 
-@NativePlugin(
-        requestCodes = {CrispLiveSupport.OPEN_MESSENGER_CODE}
-)
+@CapacitorPlugin(name = "CrispLiveSupport")
 public class CrispLiveSupport extends Plugin {
     protected static final int OPEN_MESSENGER_CODE = 12345; // Unique request code
 
+    @PluginMethod
+    public void configure(PluginCall call) {
+        String websiteID = call.getString("websiteID");
+        CrispSDK.configure(this.getContext(), websiteID)
+    }
     @PluginMethod
     public void openMessenger(PluginCall call) {
         String value = call.getString("value");
@@ -25,34 +28,60 @@ public class CrispLiveSupport extends Plugin {
         startActivityForResult(call, crispIntent, OPEN_MESSENGER_CODE);
     }
     @PluginMethod
-    public void setUserEmail(PluginCall call) {
-        String emailAddress = call.getString("emailAddress");
-        Crisp.setUserEmail(emailAddress);
-    }
-    @PluginMethod
-    public void setUserNickname(PluginCall call) {
+    public void setUser(PluginCall call) {
+        String email = call.getString("email");
         String nickname = call.getString("nickname");
-        Crisp.setUserNickname(nickname);
-    }
-    @PluginMethod
-    public void setUserPhoneNumber(PluginCall call) {
-        String phoneNumber = call.getString("phoneNumber");
-        Crisp.setUserPhone(phoneNumber);
+        String phone = call.getString("phone");
+        String avatar = call.getString("avatar");
+        if (email != null) {
+            Crisp.setUserEmail(email);
+        }
+        if (nickname != null) {
+            Crisp.setUserNickname(nickname);
+        }
+        if (phone != null) {
+            Crisp.setUserPhone(phone);
+        }
+        if (avatar != null) {
+            Crisp.setUserAvatar(avatar);
+        }
     }
     @PluginMethod
     public void pushEvent(PluginCall call) {
-        String eventName = call.getString("eventName");
+        String eventName = call.getString("name");
+        String eventColor = call.getString("color");
         System.out.println("PushEvent not yet implemented on Android.");
+        // Crisp.pushSessionEvent(eventName);
     }
     @PluginMethod
     public void setCompany(PluginCall call) {
-        String companyName = call.getString("companyName");
+        String name = call.getString("name");
+        String url = call.getString("url");
+        String description = call.getString("description");
+        String employment = call.getString("employment");
+        String geolocation = call.getString("geolocation");
         System.out.println("CompanyName not yet implemented on Android.");
+        // Crisp.setUserCompany(eventName);
     }
     @PluginMethod
-    public void setCustomAttribute(PluginCall call) {
+    public void setInt(PluginCall call) {
         String key = call.getString("key");
         String value = call.getString("value");
         Crisp.setSessionString(key, value);
+    }
+    @PluginMethod
+    public void setString(PluginCall call) {
+        String key = call.getString("key");
+        String value = call.getString("value");
+        Crisp.setSessionString(key, value);
+    }
+    @PluginMethod
+    public void setSegment(PluginCall call) {
+        String segment = call.getString("segment");
+        Crisp.setSessionSegment(segment);
+    }
+    @PluginMethod
+    public void reset(PluginCall call) {
+        Crisp.resetChatSession();
     }
 }

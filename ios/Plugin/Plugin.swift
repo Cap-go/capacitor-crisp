@@ -13,40 +13,76 @@ public class CrispLiveSupport: CAPPlugin {
         print("Crisp SDK Initialized")
     }
 
+    @objc func configure(_ call: CAPPluginCall) {
+        let websiteID = call.getString("websiteID") ?? nil
+        print("Crisp Configure", websiteID)
+        CrispSDK.configure(websiteID: websiteID)
+    }
+
     @objc func openMessenger(_ call: CAPPluginCall) {
-        print("Swift invoked --- opening Crisp Widget")
+        print("Open Crisp Widget")
         DispatchQueue.main.async {
             self.bridge?.viewController?.present(ChatViewController(), animated: true, completion: nil)
         }
     }
-    @objc func setUserEmail(_ call: CAPPluginCall) {
-        let emailAddress = call.getString("emailAddress") ?? ""
-        print("Setting User Email ")
-        CrispSDK.user.email = emailAddress;
+
+    @objc func setTokenID(_ call: CAPPluginCall) {
+        let tokenID = call.getString("tokenID") ?? ""
+        CrispSDK.setTokenID(tokenID: tokenID)
     }
-    @objc func setUserNickname(_ call: CAPPluginCall) {
-        let nickname = call.getString("nickname") ?? ""
-        print("Setting User Nickname ")
-        CrispSDK.user.nickname = nickname;
+
+    @objc func setUser(_ call: CAPPluginCall) {
+        let nickname = call.getString("nickname") ?? nil
+        let phone = call.getString("phone") ?? nil
+        let email = call.getString("email") ?? nil
+        let avatar = call.getString("avatar") ?? nil
+        if nickname != nil {
+            CrispSDK.user.nickname = nickname;
+        }
+        if phoneNumber != nil {
+            CrispSDK.user.phone = phoneNumber;
+        }
+        if emailAddress != nil {
+            CrispSDK.user.email = emailAddress;
+        }
+        if avatar != nil {
+            CrispSDK.user.avatar = URL(string: avatar);
+        }
     }
-    @objc func setUserPhoneNumber(_ call: CAPPluginCall) {
-        let phoneNumber = call.getString("phoneNumber") ?? ""
-        print("Setting User Phone Number ")
-        CrispSDK.user.phone = phoneNumber;
+
+    @objc func pushEvent(_ call: CAPPluginCall) {
+        let name = call.getString("name") ?? ""
+        let color = call.getString("color") ?? ""
+        CrispSDK.session.pushEvent(SessionEvent(name: key, color: color))
     }
-     @objc func pushEvent(_ call: CAPPluginCall) {
-        let eventName = call.getString("eventName") ?? ""
-        print("Pushing an event")
-        CrispSDK.session.pushEvent(SessionEvent(name: eventName, color: SessionEventColor.blue))
+
+    @objc func setCompany(_ call: CAPPluginCall) {
+        let name = call.getString("name") ?? nil
+        let url = call.getString("url") ?? nil
+        let description = call.getString("description") ?? nil
+        let employment = call.getString("employment") ?? nil
+        let geolocation = call.getString("geolocation") ?? nil
+        CrispSDK.user.company = Company(name: name, url: url, companyDescription: description, employment: employment, geolocation: geolocation)
     }
-     @objc func setCompany(_ call: CAPPluginCall) {
-        let companyName = call.getString("companyName") ?? ""
-        print("Pushing company name")
-        CrispSDK.user.company = Company(name: companyName, url: nil, companyDescription: nil, employment: nil, geolocation: nil)
-    }
-     @objc func setCustomAttribute(_ call: CAPPluginCall) {
+
+    @objc func setString(_ call: CAPPluginCall) {
         let key = call.getString("key") ?? ""
         let value = call.getString("value") ?? ""
         CrispSDK.session.setString(value, forKey: key)
+    }
+
+    @objc func setInt(_ call: CAPPluginCall) {
+        let key = call.getString("key") ?? ""
+        let value = call.getNumber("value") ?? 0
+        CrispSDK.session.setInt(value, forKey: key)
+    }
+
+    @objc func setSegment(_ call: CAPPluginCall) {
+        let segment = call.getString("segment") ?? ""
+        CrispSDK.session.segment = segment
+    }
+
+    @objc func reset(_ call: CAPPluginCall) {
+        CrispSDK.session.reset()
     }
 }
