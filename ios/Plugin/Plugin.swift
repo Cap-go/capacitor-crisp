@@ -13,12 +13,6 @@ public class CrispLiveSupport: CAPPlugin {
         print("Crisp SDK Initialized")
     }
 
-    @objc func echo(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
-        call.success([
-            "value": value
-        ])
-    }
     @objc func openMessenger(_ call: CAPPluginCall) {
         print("Swift invoked --- opening Crisp Widget")
         DispatchQueue.main.async {
@@ -55,7 +49,4 @@ public class CrispLiveSupport: CAPPlugin {
         let value = call.getString("value") ?? ""
         CrispSDK.session.setString(value, forKey: key)
     }
-
-
-    
 }

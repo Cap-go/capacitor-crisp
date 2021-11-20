@@ -19,13 +19,6 @@ public class CrispLiveSupport extends Plugin {
     protected static final int OPEN_MESSENGER_CODE = 12345; // Unique request code
 
     @PluginMethod
-    public void echo(PluginCall call) {
-        String value = call.getString("value");
-        JSObject ret = new JSObject();
-        ret.put("value", value);
-        call.success(ret);
-    }
-    @PluginMethod
     public void openMessenger(PluginCall call) {
         String value = call.getString("value");
         Intent crispIntent = new Intent(this.getContext(), ChatActivity.class);
