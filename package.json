@@ -1,6 +1,6 @@
 {
   "name": "capacitor-crisp",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Crisp native SDK for capacitor",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorFlash.podspec"
+    "CapacitorCrisp.podspec"
   ],
   "author": "Martin Donadieu",
   "license": "MIT",
