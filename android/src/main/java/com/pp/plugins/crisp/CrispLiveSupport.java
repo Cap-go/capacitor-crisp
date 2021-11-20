@@ -19,7 +19,7 @@ public class CrispLiveSupport extends Plugin {
     @PluginMethod
     public void configure(PluginCall call) {
         String websiteID = call.getString("websiteID");
-        CrispSDK.configure(this.getContext(), websiteID)
+        CrispSDK.configure(this.getContext(), websiteID);
     }
     @PluginMethod
     public void openMessenger(PluginCall call) {

@@ -1,10 +1,27 @@
 {
   "name": "capacitor-crisp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Crisp native SDK for capacitor",
-  "main": "dist/plugin.js",
+  "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
+  "unpkg": "dist/plugin.js",
+  "files": [
+    "android/src/main/",
+    "android/build.gradle",
+    "dist/",
+    "ios/Plugin/",
+    "CapacitorFlash.podspec"
+  ],
+  "author": "Martin Donadieu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/riderx/capacitor-crisp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/riderx/capacitor-crisp/issues"
+  },
   "scripts": {
     "lint": "npm run prettier -- --check && npm run swiftlint -- lint",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
@@ -14,17 +31,15 @@
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build"
   },
-  "author": "alim",
-  "license": "mit",
   "devDependencies": {
     "@capacitor/android": "^3.3.2",
     "@capacitor/core": "^3.3.2",
     "@capacitor/ios": "^3.3.2",
-    "@ionic/prettier-config": "^2.0.0",
+    "@ionic/prettier-config": "1.0.1",
     "@ionic/swiftlint-config": "^1.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "prettier": "~2.2.0",
-    "prettier-plugin-java": "^0.8.0",
+    "prettier-plugin-java": "^1.6.0",
     "rimraf": "^3.0.0",
     "rollup": "^2.32.0",
     "swiftlint": "^1.0.1",
@@ -33,12 +48,6 @@
   "peerDependencies": {
     "@capacitor/core": "^3.3.2"
   },
-  "files": [
-    "dist/",
-    "ios/",
-    "android/",
-    "CapacitorPluginCrisp.podspec"
-  ],
   "keywords": [
     "capacitor",
     "crisp",
@@ -54,12 +63,5 @@
     }
   },
   "prettier": "@ionic/prettier-config",
-  "swiftlint": "@ionic/swiftlint-config",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/riderx/capacitor-crisp"
-  },
-  "bugs": {
-    "url": "https://github.com/riderx/capacitor-crisp/issues"
-  }
+  "swiftlint": "@ionic/swiftlint-config"
 }
