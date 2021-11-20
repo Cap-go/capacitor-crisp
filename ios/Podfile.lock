@@ -1,7 +1,7 @@
 PODS:
-  - Capacitor (2.4.7):
+  - Capacitor (3.3.1):
     - CapacitorCordova
-  - CapacitorCordova (2.4.7)
+  - CapacitorCordova (3.3.1)
   - Crisp (1.0.12)
 
 DEPENDENCIES:
@@ -20,10 +20,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@capacitor/ios"
 
 SPEC CHECKSUMS:
-  Capacitor: 4cd7b342d5a15b1f6f333d687358953afd7b2d8b
-  CapacitorCordova: 2c9d6e28d9d86c4da087fa2c3537c1841954bb12
+  Capacitor: 03a45821c64411719140ba9fb39a895d026e597c
+  CapacitorCordova: 6c6127c6ee31a7a808705bf4ac17fb5f80ed63f6
   Crisp: 6f04a46b1955e707cddad9f39922359ab09a0a1c
 
-PODFILE CHECKSUM: 483a2d4ab5642ea72bfb172818d317027ca005d9
+PODFILE CHECKSUM: d908dea01cb4b1885654341d3f4274148fb6d382
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.1
