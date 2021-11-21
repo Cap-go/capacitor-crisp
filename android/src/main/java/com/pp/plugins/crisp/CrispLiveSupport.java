@@ -51,7 +51,7 @@ public class CrispLiveSupport extends Plugin {
         String eventName = call.getString("name");
         String eventColor = call.getString("color");
         System.out.println("PushEvent not yet implemented on Android.");
-        // Crisp.pushSessionEvent(eventName);
+        Crisp.pushSessionEvent(eventName);
     }
     @PluginMethod
     public void setCompany(PluginCall call) {

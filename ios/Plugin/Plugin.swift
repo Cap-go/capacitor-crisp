@@ -14,9 +14,9 @@ public class CrispLiveSupport: CAPPlugin {
     }
 
     @objc func configure(_ call: CAPPluginCall) {
-        let websiteID = call.getString("websiteID") ?? nil
+        let websiteID = call.getString("websiteID") ?? ""
         print("Crisp Configure", websiteID)
-        CrispSDK.configure(websiteID: websiteID)
+        CrispSDK.configure(websiteID: websiteID!)
     }
 
     @objc func openMessenger(_ call: CAPPluginCall) {
@@ -39,30 +39,55 @@ public class CrispLiveSupport: CAPPlugin {
         if nickname != nil {
             CrispSDK.user.nickname = nickname;
         }
-        if phoneNumber != nil {
-            CrispSDK.user.phone = phoneNumber;
+        if phone != nil {
+            CrispSDK.user.phone = phone;
         }
-        if emailAddress != nil {
-            CrispSDK.user.email = emailAddress;
+        if email != nil {
+            CrispSDK.user.email = email;
         }
         if avatar != nil {
-            CrispSDK.user.avatar = URL(string: avatar);
+            CrispSDK.user.avatar = URL(string: avatar ?? "");
         }
     }
 
     @objc func pushEvent(_ call: CAPPluginCall) {
         let name = call.getString("name") ?? ""
         let color = call.getString("color") ?? ""
-        CrispSDK.session.pushEvent(SessionEvent(name: key, color: color))
+        switch color {
+            case "red":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.red))
+            case "orange":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.orange))
+            case "yellow":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.yellow))
+            case "green":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.green))
+            case "blue":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.blue))
+            case "purple":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.purple))
+            case "pink":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.pink))
+            case "brown":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.brown))
+            case "grey":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.grey))
+            case "black":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.black))
+            default:
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.blue))
+        }
     }
 
     @objc func setCompany(_ call: CAPPluginCall) {
         let name = call.getString("name") ?? nil
-        let url = call.getString("url") ?? nil
+        let url = URL(string: call.getString("url") ?? "")
         let description = call.getString("description") ?? nil
-        let employment = call.getString("employment") ?? nil
-        let geolocation = call.getString("geolocation") ?? nil
-        CrispSDK.user.company = Company(name: name, url: url, companyDescription: description, employment: employment, geolocation: geolocation)
+        let employment = call.getArray("employment", String.self) ?? ["", ""]
+        let geolocation = call.getArray("geolocation", String.self) ?? ["", ""]
+        CrispSDK.user.company = Company(name: name, url: url, companyDescription: description, 
+        employment: Employment(title: employment[0], role: employment[1]),
+        geolocation:  Geolocation(city: geolocation[0], country: geolocation[1]))
     }
 
     @objc func setString(_ call: CAPPluginCall) {
@@ -73,7 +98,7 @@ public class CrispLiveSupport: CAPPlugin {
 
     @objc func setInt(_ call: CAPPluginCall) {
         let key = call.getString("key") ?? ""
-        let value = call.getNumber("value") ?? 0
+        let value = call.getInt("value") ?? 0
         CrispSDK.session.setInt(value, forKey: key)
     }
 

@@ -59,8 +59,7 @@ I recccomend creating a helper file called chat.js to handle calling the right A
 
 
 ```
-import { Plugins } from '@capacitor/core';
-const { CrispLiveSupport } = Plugins;
+const { CrispLiveSupport } = 'capacitor-crisp';
 
 CrispLiveSupport.configure(data: { websiteID: string })
 
