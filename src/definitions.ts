@@ -9,6 +9,7 @@ export interface CapacitorCrispPlugin {
   setCompany(data: { name: string, url?: string, description?: string, employment?: [title: string, role: string], geolocation?: [country: string, city: string] }): Promise<void>;
   setInt(data: { key: string, value: number }): Promise<void>;
   setString(data: { key: string, value: string }): Promise<void>;
+  sendMessage(data: { value: string }): Promise<void>;
   setSegment(data: { segment: string }): Promise<void>;
   reset(): Promise<void>;
 }

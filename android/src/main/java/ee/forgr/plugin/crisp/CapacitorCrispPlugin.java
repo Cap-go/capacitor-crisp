@@ -105,6 +105,10 @@ public class CapacitorCrispPlugin extends Plugin {
         call.resolve();
     }
     @PluginMethod
+    public void sendMessage(PluginCall call) {
+        call.unimplemented('Not implemented on Android.');
+    }
+    @PluginMethod
     public void setSegment(PluginCall call) {
         String segment = call.getString("segment");
         Crisp.setSessionSegment(segment);

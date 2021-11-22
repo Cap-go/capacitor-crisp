@@ -103,6 +103,11 @@ public class CapacitorCrispPlugin: CAPPlugin {
         call.resolve()
     }
 
+    @objc func sendMessage(_ call: CAPPluginCall) {
+        call.unimplemented("Not implemented on iOS.")
+        call.resolve()
+    }
+
     @objc func setInt(_ call: CAPPluginCall) {
         let key = call.getString("key") ?? ""
         let value = call.getInt("value") ?? 0

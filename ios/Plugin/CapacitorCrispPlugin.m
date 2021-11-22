@@ -11,6 +11,7 @@ CAP_PLUGIN(CapacitorCrispPlugin, "CapacitorCrisp",
         CAP_PLUGIN_METHOD(pushEvent, CAPPluginReturnPromise);
         CAP_PLUGIN_METHOD(setCompany, CAPPluginReturnPromise);
         CAP_PLUGIN_METHOD(setString, CAPPluginReturnPromise);
+        CAP_PLUGIN_METHOD(sendMessage, CAPPluginReturnPromise);
         CAP_PLUGIN_METHOD(setInt, CAPPluginReturnPromise);
         CAP_PLUGIN_METHOD(setSegment, CAPPluginReturnPromise);
         CAP_PLUGIN_METHOD(reset, CAPPluginReturnPromise);

@@ -102,6 +102,14 @@ export class CapacitorCrispWeb
     window.$crisp.push(["set", "session:data", [[[data.key, data.value]]]]);
   }
 
+  async sendMessage(data: { value: string }): Promise<void> {
+    window.$crisp.push([
+        'do',
+        'message:send',
+        ['text', data.value],
+    ])
+  }
+
   async setSegment(data: { segment: string }): Promise<void> {
     window.$crisp.push(["set", "session:segments", [[data.segment]]])
   }
