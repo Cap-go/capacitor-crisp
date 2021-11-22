@@ -60,6 +60,7 @@ public class MainActivity extends BridgeActivity {
 * [`setCompany(...)`](#setcompany)
 * [`setInt(...)`](#setint)
 * [`setString(...)`](#setstring)
+* [`sendMessage(...)`](#sendmessage)
 * [`setSegment(...)`](#setsegment)
 * [`reset()`](#reset)
 
@@ -178,6 +179,21 @@ setString(data: { key: string; value: string; }) => any
 | Param      | Type                                         |
 | ---------- | -------------------------------------------- |
 | **`data`** | <code>{ key: string; value: string; }</code> |
+
+**Returns:** <code>any</code>
+
+--------------------
+
+
+### sendMessage(...)
+
+```typescript
+sendMessage(data: { value: string; }) => any
+```
+
+| Param      | Type                            |
+| ---------- | ------------------------------- |
+| **`data`** | <code>{ value: string; }</code> |
 
 **Returns:** <code>any</code>
 
