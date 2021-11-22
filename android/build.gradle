@@ -20,6 +20,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 30
     defaultConfig {
+        multiDexEnabled true
         minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 21
         targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 30
         versionCode 1
@@ -45,6 +46,10 @@ repositories {
     google()
     jcenter()
     mavenCentral()
+
+    maven {
+        url 'https://dl.bintray.com/crispim/crisp-maven'
+    }
 }
 
 
@@ -53,6 +58,8 @@ dependencies {
     implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     testImplementation "junit:junit:$junitVersion"
+    implementation 'im.crisp:crisp-sdk:1.0.7'
+    implementation 'androidx.multidex:multidex:2.0.1'
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
 }
