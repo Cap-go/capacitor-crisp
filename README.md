@@ -9,6 +9,45 @@ npm install capacitor-crisp
 npx cap sync
 ```
 
+## iOS Integration
+
+The configuration is made in js by calling the `CrispLiveSupport.configure(data: { websiteID: string })` method.
+### Update your Info.plist
+
+To enable your users to take and upload photos to the chat as well as download photos to their photo library, add :
+
+Privacy - Camera Usage Description (NSCameraUsageDescription)Privacy - Photo Library Additions Usage Description (NSPhotoLibraryAddUsageDescription) 
+
+to your app's Info.plist.
+
+## Android Integration
+In Android Studio, activate the plugin from the app's `MainActivity` 
+
+
+```
+// import the Crisp Plugin
+import com.pp.plugins.crisp.CrispLiveSupport;
+
+
+public class MainActivity extends BridgeActivity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // Initializes the Bridge
+    this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
+      // Additional plugins you've installed go here
+       add(CrispLiveSupport.class);
+    }});
+  }
+  @Override
+   protected void onNewIntent(Intent intent) {
+     this.setIntent(intent);
+     super.onNewIntent(intent);
+   }
+}
+
+```
+
 ## API
 
 <docgen-index>
