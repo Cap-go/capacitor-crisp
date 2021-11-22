@@ -19,8 +19,16 @@ export class CapacitorCrispWeb
       name: 'CapacitorCrisp',
       platforms: ['web'],
     });
-    window.$crisp = [
-      ['safe', true],
+    window.$crisp = []
+    const s = document.createElement('script')
+    s.src = 'https://client.crisp.chat/l.js'
+    s.async = true
+    document.getElementsByTagName('head')[0].appendChild(s)
+    this.setAutoHide()
+  }
+
+  private setAutoHide() {
+    window.$crisp.push(['safe', true],
       ['do', 'chat:hide'],
       [
         'on',
@@ -35,12 +43,7 @@ export class CapacitorCrispWeb
         () => {
           window.$crisp.push(['do', 'chat:show'])
         },
-      ],
-    ]
-    const s = document.createElement('script')
-    s.src = 'https://client.crisp.chat/l.js'
-    s.async = true
-    document.getElementsByTagName('head')[0].appendChild(s)
+      ])
   }
 
   async configure(data: { websiteID: string }): Promise<void> {
@@ -54,7 +57,7 @@ export class CapacitorCrispWeb
 
   async setTokenID(data: { tokenID: string }): Promise<void> {
     window.CRISP_TOKEN_ID = data.tokenID
-    window.$crisp.push(["do", "session:reset"])
+    this.reset()
   }
   
   async setUser(data: { nickname?: string, phone?: string, email?: string, avatar?: string }): Promise<void> {
@@ -116,5 +119,6 @@ export class CapacitorCrispWeb
 
   async reset(): Promise<void> {
     window.$crisp.push(["do", "session:reset"]);
+    this.setAutoHide()
   }
 }
