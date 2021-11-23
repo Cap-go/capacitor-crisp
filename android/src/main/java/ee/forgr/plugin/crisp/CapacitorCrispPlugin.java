@@ -1,13 +1,23 @@
 package ee.forgr.plugin.crisp;
 
-import com.getcapacitor.JSObject;
+import android.content.Intent;
+
+import com.getcapacitor.JSArray;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
+import org.json.JSONException;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import im.crisp.client.ChatActivity;
 import im.crisp.client.Crisp;
+import im.crisp.client.data.SessionEvent;
+import im.crisp.client.data.Geolocation;
+import im.crisp.client.data.Employment;
 import im.crisp.client.data.Company;
 
 @CapacitorPlugin(name = "CapacitorCrisp")
@@ -18,14 +28,14 @@ public class CapacitorCrispPlugin extends Plugin {
     @PluginMethod
     public void configure(PluginCall call) {
         String websiteID = call.getString("websiteID");
-        CrispSDK.configure(this.getContext(), websiteID);
+        Crisp.configure(this.getContext(), websiteID);
         call.resolve();
     }
     @PluginMethod
     public void openMessenger(PluginCall call) {
         String value = call.getString("value");
         Intent crispIntent = new Intent(this.getContext(), ChatActivity.class);
-        startActivityForResult(call, crispIntent, OPEN_MESSENGER_CODE);
+        this.getContext().startActivity(crispIntent);
         call.resolve();
     }
     @PluginMethod
@@ -54,27 +64,25 @@ public class CapacitorCrispPlugin extends Plugin {
         String color = call.getString("color");
         switch (color) {
             case "red":
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.red));
+                Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.RED));
             case "orange":
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.orange));
+                Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.ORANGE));
             case "yellow":
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.yellow));
+                Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.YELLOW));
             case "green":
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.green));
-            case "blue":
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.blue));
+                Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.GREEN));
             case "purple":
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.purple));
+                Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.PURPLE));
             case "pink":
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.pink));
+                Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.PINK));
             case "brown":
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.brown));
+                Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.BROWN));
             case "grey":
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.grey));
+                Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.GREY));
             case "black":
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.black));
+                Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.BLACK));
             default:
-                Crisp.pushSessionEvent(SessionEvent(name: name, color: SessionEventColor.blue));
+                Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.BLUE));
         }
         call.resolve();
     }
@@ -83,11 +91,16 @@ public class CapacitorCrispPlugin extends Plugin {
         String name = call.getString("name");
         String url = call.getString("url");
         String description = call.getString("description");
-        String employment = call.getString("employment");
-        String geolocation = call.getString("geolocation");
-        Crisp.setUserCompany(Company(name: name, url: url, companyDescription: description, 
-        employment: Employment(title: employment[0], role: employment[1]),
-        geolocation:  Geolocation(city: geolocation[0], country: geolocation[1])));
+        JSArray employment = call.getArray("employment");
+        JSArray geolocation = call.getArray("geolocation");
+        try {
+            Crisp.setUserCompany(new Company(name, new URL(url), description, new Employment(employment.get(0).toString(), employment.get(1).toString()),
+            new Geolocation(geolocation.get(0).toString(), geolocation.get(1).toString())));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         call.resolve();
     }
     @PluginMethod
@@ -106,7 +119,7 @@ public class CapacitorCrispPlugin extends Plugin {
     }
     @PluginMethod
     public void sendMessage(PluginCall call) {
-        call.unimplemented('Not implemented on Android.');
+        call.unimplemented("Not implemented on Android.");
     }
     @PluginMethod
     public void setSegment(PluginCall call) {
@@ -116,7 +129,7 @@ public class CapacitorCrispPlugin extends Plugin {
     }
     @PluginMethod
     public void reset(PluginCall call) {
-        Crisp.resetChatSession();
+        Crisp.resetChatSession(this.getContext());
         call.resolve();
     }
 }
