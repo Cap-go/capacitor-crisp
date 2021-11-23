@@ -63,6 +63,7 @@ public class MainActivity extends BridgeActivity {
 * [`sendMessage(...)`](#sendmessage)
 * [`setSegment(...)`](#setsegment)
 * [`reset()`](#reset)
+* [Type Aliases](#type-aliases)
 
 </docgen-index>
 
@@ -72,14 +73,12 @@ public class MainActivity extends BridgeActivity {
 ### configure(...)
 
 ```typescript
-configure(data: { websiteID: string; }) => any
+configure(data: { websiteID: string; }) => Promise<void>
 ```
 
 | Param      | Type                                |
 | ---------- | ----------------------------------- |
 | **`data`** | <code>{ websiteID: string; }</code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -87,10 +86,8 @@ configure(data: { websiteID: string; }) => any
 ### openMessenger()
 
 ```typescript
-openMessenger() => any
+openMessenger() => Promise<void>
 ```
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -98,14 +95,12 @@ openMessenger() => any
 ### setTokenID(...)
 
 ```typescript
-setTokenID(data: { tokenID: string; }) => any
+setTokenID(data: { tokenID: string; }) => Promise<void>
 ```
 
 | Param      | Type                              |
 | ---------- | --------------------------------- |
 | **`data`** | <code>{ tokenID: string; }</code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -113,14 +108,12 @@ setTokenID(data: { tokenID: string; }) => any
 ### setUser(...)
 
 ```typescript
-setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: string; }) => any
+setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: string; }) => Promise<void>
 ```
 
 | Param      | Type                                                                                 |
 | ---------- | ------------------------------------------------------------------------------------ |
 | **`data`** | <code>{ nickname?: string; phone?: string; email?: string; avatar?: string; }</code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -128,14 +121,12 @@ setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: stri
 ### pushEvent(...)
 
 ```typescript
-pushEvent(data: { name: string; color: eventColor; }) => any
+pushEvent(data: { name: string; color: eventColor; }) => Promise<void>
 ```
 
-| Param      | Type                                              |
-| ---------- | ------------------------------------------------- |
-| **`data`** | <code>{ name: string; color: eventColor; }</code> |
-
-**Returns:** <code>any</code>
+| Param      | Type                                                                        |
+| ---------- | --------------------------------------------------------------------------- |
+| **`data`** | <code>{ name: string; color: <a href="#eventcolor">eventColor</a>; }</code> |
 
 --------------------
 
@@ -143,14 +134,12 @@ pushEvent(data: { name: string; color: eventColor; }) => any
 ### setCompany(...)
 
 ```typescript
-setCompany(data: { name: string; url?: string; description?: string; employment?: [title: string, role: string]; geolocation?: [country: string, city: string]; }) => any
+setCompany(data: { name: string; url?: string; description?: string; employment?: [title: string, role: string]; geolocation?: [country: string, city: string]; }) => Promise<void>
 ```
 
 | Param      | Type                                                                                                                                                          |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **`data`** | <code>{ name: string; url?: string; description?: string; employment?: [title: string, role: string]; geolocation?: [country: string, city: string]; }</code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -158,14 +147,12 @@ setCompany(data: { name: string; url?: string; description?: string; employment?
 ### setInt(...)
 
 ```typescript
-setInt(data: { key: string; value: number; }) => any
+setInt(data: { key: string; value: number; }) => Promise<void>
 ```
 
 | Param      | Type                                         |
 | ---------- | -------------------------------------------- |
 | **`data`** | <code>{ key: string; value: number; }</code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -173,14 +160,12 @@ setInt(data: { key: string; value: number; }) => any
 ### setString(...)
 
 ```typescript
-setString(data: { key: string; value: string; }) => any
+setString(data: { key: string; value: string; }) => Promise<void>
 ```
 
 | Param      | Type                                         |
 | ---------- | -------------------------------------------- |
 | **`data`** | <code>{ key: string; value: string; }</code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -188,14 +173,12 @@ setString(data: { key: string; value: string; }) => any
 ### sendMessage(...)
 
 ```typescript
-sendMessage(data: { value: string; }) => any
+sendMessage(data: { value: string; }) => Promise<void>
 ```
 
 | Param      | Type                            |
 | ---------- | ------------------------------- |
 | **`data`** | <code>{ value: string; }</code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -203,14 +186,12 @@ sendMessage(data: { value: string; }) => any
 ### setSegment(...)
 
 ```typescript
-setSegment(data: { segment: string; }) => any
+setSegment(data: { segment: string; }) => Promise<void>
 ```
 
 | Param      | Type                              |
 | ---------- | --------------------------------- |
 | **`data`** | <code>{ segment: string; }</code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -218,11 +199,17 @@ setSegment(data: { segment: string; }) => any
 ### reset()
 
 ```typescript
-reset() => any
+reset() => Promise<void>
 ```
 
-**Returns:** <code>any</code>
-
 --------------------
+
+
+### Type Aliases
+
+
+#### eventColor
+
+<code>"red" | "orange" | "yellow" | "green" | "blue" | "purple" | "pink" | "brown" | "grey" | "black"</code>
 
 </docgen-api>
