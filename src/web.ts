@@ -15,10 +15,7 @@ export class CapacitorCrispWeb
   extends WebPlugin
   implements CapacitorCrispPlugin {
   constructor() {
-    super({
-      name: 'CapacitorCrisp',
-      platforms: ['web'],
-    });
+    super();
     window.$crisp = []
     const s = document.createElement('script')
     s.src = 'https://client.crisp.chat/l.js'
