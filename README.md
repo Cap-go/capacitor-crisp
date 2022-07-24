@@ -5,7 +5,7 @@ Crisp native SDK for capacitor
 ## Install
 
 ```bash
-npm install capacitor-crisp
+npm install @capgo/capacitor-crisp
 npx cap sync
 ```
 
