@@ -1,5 +1,5 @@
 {
-  "name": "capacitor-crisp",
+  "name": "@capgo/capacitor-crisp",
   "version": "1.0.18",
   "description": "Crisp native SDK for capacitor",
   "main": "dist/plugin.cjs.js",
