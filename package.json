@@ -17,10 +17,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/riderx/capacitor-crisp.git"
+    "url": "git+https://github.com/Cap-go/capacitor-crisp.git"
   },
   "bugs": {
-    "url": "https://github.com/riderx/capacitor-crisp/issues"
+    "url": "https://github.com/Cap-go/capacitor-crisp/issues"
   },
   "keywords": [
     "capacitor",
