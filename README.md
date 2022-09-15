@@ -18,7 +18,7 @@ npx cap sync
 
 Call configure in your code Before any other method :
 ```
-import { CapacitorCrisp } from 'capacitor-crisp';
+import { CapacitorCrisp } from '@capgo/capacitor-crisp';
 
 CapacitorCrisp.configure({websiteID: '******-****-****-****-********'})
 ```
@@ -39,7 +39,7 @@ Nothing special to do.
 ## Open chatbox
 
 ```
-import { CapacitorCrisp } from 'capacitor-crisp';
+import { CapacitorCrisp } from '@capgo/capacitor-crisp';
 
 CapacitorCrisp.openMessenger()
 ```
