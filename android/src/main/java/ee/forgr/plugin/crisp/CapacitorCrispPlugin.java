@@ -106,8 +106,8 @@ public class CapacitorCrispPlugin extends Plugin {
     @PluginMethod
     public void setInt(PluginCall call) {
         String key = call.getString("key");
-        String value = call.getString("value");
-        Crisp.setSessionString(key, value);
+        int value = call.getInt("value");
+        Crisp.setSessionInt(key, value);
         call.resolve();
     }
     @PluginMethod

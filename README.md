@@ -1,4 +1,9 @@
 # capacitor-crisp
+  <a href="https://capgo.app/"><img src='https://raw.githubusercontent.com/Cap-go/capgo/main/assets/capgo_banner.png' alt='Capgo - Instant updates for capacitor'/></a>
+
+<div align="center">
+<h2><a href="https://capgo.app/">Check out: Capgo — Instant updates for capacitor</a></h2>
+</div>
 
 Crisp native SDK for capacitor
 
@@ -13,7 +18,7 @@ npx cap sync
 
 Call configure in your code Before any other method :
 ```
-import { CapacitorCrisp } from 'capacitor-crisp';
+import { CapacitorCrisp } from '@capgo/capacitor-crisp';
 
 CapacitorCrisp.configure({websiteID: '******-****-****-****-********'})
 ```
@@ -34,7 +39,7 @@ Nothing special to do.
 ## Open chatbox
 
 ```
-import { CapacitorCrisp } from 'capacitor-crisp';
+import { CapacitorCrisp } from '@capgo/capacitor-crisp';
 
 CapacitorCrisp.openMessenger()
 ```
