@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.9](https://github.com/Cap-go/capacitor-crisp/compare/v1.1.8...v1.1.9) (2022-11-11)
+
+
+### Bug Fixes
+
+* android ([115e8f8](https://github.com/Cap-go/capacitor-crisp/commit/115e8f8181884599734e65e50d9cec08fe297103))
+* build CI ([97692f0](https://github.com/Cap-go/capacitor-crisp/commit/97692f0a22df3c5efb547b171b8bba7a271f3d4d))
+* doc ([f832751](https://github.com/Cap-go/capacitor-crisp/commit/f8327511e34daa1fd01a08ffa565b5ef008938b2))
+
 ### [1.1.8](https://github.com/Cap-go/capacitor-crisp/compare/v1.1.7...v1.1.8) (2022-11-11)
 
 
