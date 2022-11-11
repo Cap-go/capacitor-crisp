@@ -8,7 +8,7 @@ import Crisp
  */
 @objc(CapacitorCrispPlugin)
 public class CapacitorCrispPlugin: CAPPlugin {
-      @objc override public func load() {
+    @objc override public func load() {
         // Called when the plugin is first constructed in the bridge
         print("CapacitorCrispPlugin Initialized")
     }
@@ -45,16 +45,16 @@ public class CapacitorCrispPlugin: CAPPlugin {
         let avatar = call.getString("avatar") ?? nil
         DispatchQueue.main.async {
             if nickname != nil {
-                CrispSDK.user.nickname = nickname;
+                CrispSDK.user.nickname = nickname
             }
             if phone != nil {
-                CrispSDK.user.phone = phone;
+                CrispSDK.user.phone = phone
             }
             if email != nil {
-                CrispSDK.user.email = email;
+                CrispSDK.user.email = email
             }
             if avatar != nil {
-                CrispSDK.user.avatar = URL(string: avatar ?? "");
+                CrispSDK.user.avatar = URL(string: avatar ?? "")
             }
             call.resolve()
         }
@@ -65,28 +65,28 @@ public class CapacitorCrispPlugin: CAPPlugin {
         let color = call.getString("color") ?? ""
         DispatchQueue.main.async {
             switch color {
-                case "red":
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.red))
-                case "orange":
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.orange))
-                case "yellow":
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.yellow))
-                case "green":
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.green))
-                case "blue":
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.blue))
-                case "purple":
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.purple))
-                case "pink":
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.pink))
-                case "brown":
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.brown))
-                case "grey":
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.grey))
-                case "black":
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.black))
-                default:
-                    CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.blue))
+            case "red":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.red))
+            case "orange":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.orange))
+            case "yellow":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.yellow))
+            case "green":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.green))
+            case "blue":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.blue))
+            case "purple":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.purple))
+            case "pink":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.pink))
+            case "brown":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.brown))
+            case "grey":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.grey))
+            case "black":
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.black))
+            default:
+                CrispSDK.session.pushEvent(SessionEvent(name: name, color: SessionEventColor.blue))
             }
             call.resolve()
         }
@@ -99,9 +99,9 @@ public class CapacitorCrispPlugin: CAPPlugin {
         let employment = call.getArray("employment", String.self) ?? ["", ""]
         let geolocation = call.getArray("geolocation", String.self) ?? ["", ""]
         DispatchQueue.main.async {
-            CrispSDK.user.company = Company(name: name, url: url, companyDescription: description, 
-            employment: Employment(title: employment[0], role: employment[1]),
-            geolocation:  Geolocation(city: geolocation[0], country: geolocation[1]))
+            CrispSDK.user.company = Company(name: name, url: url, companyDescription: description,
+                                            employment: Employment(title: employment[0], role: employment[1]),
+                                            geolocation: Geolocation(city: geolocation[0], country: geolocation[1]))
             call.resolve()
         }
     }
