@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.10](https://github.com/Cap-go/capacitor-crisp/compare/v1.1.9...v1.1.10) (2022-11-11)
+
+
+### Bug Fixes
+
+* build sript ios ([c9eea61](https://github.com/Cap-go/capacitor-crisp/commit/c9eea61d4d2af7e522c95fa777639dab93492e5f))
+
 ### [1.1.9](https://github.com/Cap-go/capacitor-crisp/compare/v1.1.8...v1.1.9) (2022-11-11)
 
 
