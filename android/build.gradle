@@ -59,7 +59,7 @@ dependencies {
     implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     testImplementation "junit:junit:$junitVersion"
-    implementation 'im.crisp:crisp-sdk:1.0.13'
+    implementation 'im.crisp:crisp-sdk:1.0.14'
     implementation 'androidx.multidex:multidex:2.0.1'
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"

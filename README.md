@@ -68,12 +68,14 @@ CapacitorCrisp.openMessenger()
 ### configure(...)
 
 ```typescript
-configure(data: { websiteID: string; }) => Promise<void>
+configure(data: { websiteID: string; }) => any
 ```
 
 | Param      | Type                                |
 | ---------- | ----------------------------------- |
 | **`data`** | <code>{ websiteID: string; }</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -81,8 +83,10 @@ configure(data: { websiteID: string; }) => Promise<void>
 ### openMessenger()
 
 ```typescript
-openMessenger() => Promise<void>
+openMessenger() => any
 ```
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -90,12 +94,14 @@ openMessenger() => Promise<void>
 ### setTokenID(...)
 
 ```typescript
-setTokenID(data: { tokenID: string; }) => Promise<void>
+setTokenID(data: { tokenID: string; }) => any
 ```
 
 | Param      | Type                              |
 | ---------- | --------------------------------- |
 | **`data`** | <code>{ tokenID: string; }</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -103,12 +109,14 @@ setTokenID(data: { tokenID: string; }) => Promise<void>
 ### setUser(...)
 
 ```typescript
-setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: string; }) => Promise<void>
+setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: string; }) => any
 ```
 
 | Param      | Type                                                                                 |
 | ---------- | ------------------------------------------------------------------------------------ |
 | **`data`** | <code>{ nickname?: string; phone?: string; email?: string; avatar?: string; }</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -116,12 +124,14 @@ setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: stri
 ### pushEvent(...)
 
 ```typescript
-pushEvent(data: { name: string; color: eventColor; }) => Promise<void>
+pushEvent(data: { name: string; color: eventColor; }) => any
 ```
 
 | Param      | Type                                                                        |
 | ---------- | --------------------------------------------------------------------------- |
 | **`data`** | <code>{ name: string; color: <a href="#eventcolor">eventColor</a>; }</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -129,12 +139,14 @@ pushEvent(data: { name: string; color: eventColor; }) => Promise<void>
 ### setCompany(...)
 
 ```typescript
-setCompany(data: { name: string; url?: string; description?: string; employment?: [title: string, role: string]; geolocation?: [country: string, city: string]; }) => Promise<void>
+setCompany(data: { name: string; url?: string; description?: string; employment?: [title: string, role: string]; geolocation?: [country: string, city: string]; }) => any
 ```
 
 | Param      | Type                                                                                                                                                          |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **`data`** | <code>{ name: string; url?: string; description?: string; employment?: [title: string, role: string]; geolocation?: [country: string, city: string]; }</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -142,12 +154,14 @@ setCompany(data: { name: string; url?: string; description?: string; employment?
 ### setInt(...)
 
 ```typescript
-setInt(data: { key: string; value: number; }) => Promise<void>
+setInt(data: { key: string; value: number; }) => any
 ```
 
 | Param      | Type                                         |
 | ---------- | -------------------------------------------- |
 | **`data`** | <code>{ key: string; value: number; }</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -155,12 +169,14 @@ setInt(data: { key: string; value: number; }) => Promise<void>
 ### setString(...)
 
 ```typescript
-setString(data: { key: string; value: string; }) => Promise<void>
+setString(data: { key: string; value: string; }) => any
 ```
 
 | Param      | Type                                         |
 | ---------- | -------------------------------------------- |
 | **`data`** | <code>{ key: string; value: string; }</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -168,12 +184,14 @@ setString(data: { key: string; value: string; }) => Promise<void>
 ### sendMessage(...)
 
 ```typescript
-sendMessage(data: { value: string; }) => Promise<void>
+sendMessage(data: { value: string; }) => any
 ```
 
 | Param      | Type                            |
 | ---------- | ------------------------------- |
 | **`data`** | <code>{ value: string; }</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -181,12 +199,14 @@ sendMessage(data: { value: string; }) => Promise<void>
 ### setSegment(...)
 
 ```typescript
-setSegment(data: { segment: string; }) => Promise<void>
+setSegment(data: { segment: string; }) => any
 ```
 
 | Param      | Type                              |
 | ---------- | --------------------------------- |
 | **`data`** | <code>{ segment: string; }</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -194,8 +214,10 @@ setSegment(data: { segment: string; }) => Promise<void>
 ### reset()
 
 ```typescript
-reset() => Promise<void>
+reset() => any
 ```
+
+**Returns:** <code>any</code>
 
 --------------------
 
