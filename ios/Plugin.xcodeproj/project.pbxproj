@@ -267,7 +267,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-PluginTests/Pods-PluginTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Capacitor/Capacitor.framework",
 				"${BUILT_PRODUCTS_DIR}/CapacitorCordova/Cordova.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Crisp/Crisp.framework/Crisp",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Crisp/Crisp/Crisp.framework/Crisp",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
