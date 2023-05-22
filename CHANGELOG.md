@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/Cap-go/capacitor-crisp/compare/v1.1.21...v2.0.0) (2023-05-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* capacitor 5 update
+
+### Features
+
+* capacitor 5 update ([ec52720](https://github.com/Cap-go/capacitor-crisp/commit/ec52720de5484b70e26fd32c00feb24994696051))
+
 ### [1.1.21](https://github.com/Cap-go/capacitor-crisp/compare/v1.1.20...v1.1.21) (2023-01-04)
 
 ### [1.1.20](https://github.com/Cap-go/capacitor-crisp/compare/v1.1.19...v1.1.20) (2023-01-02)
