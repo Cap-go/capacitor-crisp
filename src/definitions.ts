@@ -1,20 +1,25 @@
 export type eventColor =
-  | 'red'
-  | 'orange'
-  | 'yellow'
-  | 'green'
-  | 'blue'
-  | 'purple'
-  | 'pink'
-  | 'brown'
-  | 'grey'
-  | 'black';
+  | "red"
+  | "orange"
+  | "yellow"
+  | "green"
+  | "blue"
+  | "purple"
+  | "pink"
+  | "brown"
+  | "grey"
+  | "black";
 
 export interface CapacitorCrispPlugin {
   configure(data: { websiteID: string }): Promise<void>;
   openMessenger(): Promise<void>;
   setTokenID(data: { tokenID: string }): Promise<void>;
-  setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: string }): Promise<void>;
+  setUser(data: {
+    nickname?: string;
+    phone?: string;
+    email?: string;
+    avatar?: string;
+  }): Promise<void>;
   pushEvent(data: { name: string; color: eventColor }): Promise<void>;
   setCompany(data: {
     name: string;

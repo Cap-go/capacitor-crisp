@@ -1,10 +1,10 @@
-import { registerPlugin } from '@capacitor/core';
+import { registerPlugin } from "@capacitor/core";
 
-import type { CapacitorCrispPlugin } from './definitions';
+import type { CapacitorCrispPlugin } from "./definitions";
 
-const CapacitorCrisp = registerPlugin<CapacitorCrispPlugin>('CapacitorCrisp', {
-  web: () => import('./web').then((m) => new m.CapacitorCrispWeb()),
+const CapacitorCrisp = registerPlugin<CapacitorCrispPlugin>("CapacitorCrisp", {
+  web: () => import("./web").then((m) => new m.CapacitorCrispWeb()),
 });
 
-export * from './definitions';
+export * from "./definitions";
 export { CapacitorCrisp };
