@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.8](https://github.com/Cap-go/capacitor-crisp/compare/v2.0.0...v2.0.8) (2023-06-01)
+
+
+### Bug Fixes
+
+* ci name ([00c814a](https://github.com/Cap-go/capacitor-crisp/commit/00c814aeb3d962a36b4037fb60494fa77609de45))
+* **deps:** update dependency com.android.tools.build:gradle to v8.0.2 ([04f69e2](https://github.com/Cap-go/capacitor-crisp/commit/04f69e2dc12f61037f5e78a1d92dd7d227e4a68e))
+* **deps:** update dependency im.crisp:crisp-sdk to v1.0.14 ([d1cbed4](https://github.com/Cap-go/capacitor-crisp/commit/d1cbed4d0fff224b096c20c9c5aceea867dc4ac4))
+* lint issue ([27b7444](https://github.com/Cap-go/capacitor-crisp/commit/27b74449ddcbe7e69ce30097bad53febd479fa2c))
+* remove docgen api ([d110bc1](https://github.com/Cap-go/capacitor-crisp/commit/d110bc10609f426c1247f49380c5c68bc824ea17))
+* script bump ([510ff36](https://github.com/Cap-go/capacitor-crisp/commit/510ff36254135669f22c80e77790b794d4dff0d9))
+
 ### [2.0.7](https://github.com/Cap-go/capacitor-crisp/compare/v2.0.0...v2.0.7) (2023-05-29)
 
 
