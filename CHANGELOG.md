@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.11](https://github.com/Cap-go/capacitor-crisp/compare/2.0.10...2.0.11) (2023-07-31)
+
+
+### Bug Fixes
+
+* **deps:** update dependency im.crisp:crisp-sdk to v1.0.15 ([5c56e83](https://github.com/Cap-go/capacitor-crisp/commit/5c56e83355cd96fa5356b759818c8a816d0077aa))
+
 ### [2.0.10](https://github.com/Cap-go/capacitor-crisp/compare/2.0.9...2.0.10) (2023-07-17)
 
 ### [2.0.9](https://github.com/Cap-go/capacitor-crisp/compare/2.0.8...2.0.9) (2023-07-03)
