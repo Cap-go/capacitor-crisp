@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/Cap-go/capacitor-crisp/compare/2.0.16...6.0.0) (2024-04-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade capacitor 6
+
+### Features
+
+* upgrade capacitor 6 ([9a8fd0b](https://github.com/Cap-go/capacitor-crisp/commit/9a8fd0b533edbbaae487a64cc8bc8f7bf2946464))
+
+
+### Bug Fixes
+
+* pnpm lockfile ([39a519f](https://github.com/Cap-go/capacitor-crisp/commit/39a519fbb258f4a13b5d459c4ea65dd6fc734c34))
+
 ### [2.0.16](https://github.com/Cap-go/capacitor-crisp/compare/2.0.15...2.0.16) (2023-10-09)
 
 ### [2.0.15](https://github.com/Cap-go/capacitor-crisp/compare/2.0.14...2.0.15) (2023-09-04)
