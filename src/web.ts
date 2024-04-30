@@ -41,7 +41,7 @@ export class CapacitorCrispWeb
         () => {
           window.$crisp.push(["do", "chat:show"]);
         },
-      ]
+      ],
     );
   }
 
