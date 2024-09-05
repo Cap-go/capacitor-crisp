@@ -1,6 +1,6 @@
 {
   "name": "@capgo/capacitor-crisp",
-  "version": "6.0.52",
+  "version": "6.0.53",
   "description": "Crisp native SDK for capacitor",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
