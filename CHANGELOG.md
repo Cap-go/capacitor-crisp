@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.58](https://github.com/Cap-go/capacitor-crisp/compare/6.0.57...6.0.58) (2024-10-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency com.android.tools.build:gradle to v8.7.0 ([915736c](https://github.com/Cap-go/capacitor-crisp/commit/915736c817d45c280d717bcab3176443b9e02f86))
+
 ### [6.0.57](https://github.com/Cap-go/capacitor-crisp/compare/6.0.56...6.0.57) (2024-09-30)
 
 ### [6.0.56](https://github.com/Cap-go/capacitor-crisp/compare/6.0.55...6.0.56) (2024-09-23)
