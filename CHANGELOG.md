@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.65](https://github.com/Cap-go/capacitor-crisp/compare/6.0.64...6.0.65) (2025-01-06)
+
 ### [6.0.64](https://github.com/Cap-go/capacitor-crisp/compare/6.0.63...6.0.64) (2024-12-30)
 
 ### [6.0.63](https://github.com/Cap-go/capacitor-crisp/compare/6.0.62...6.0.63) (2024-12-23)
