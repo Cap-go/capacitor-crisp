@@ -8,6 +8,21 @@ import Crisp
  */
 @objc(CapacitorCrispPlugin)
 public class CapacitorCrispPlugin: CAPPlugin {
+    public let identifier = "CapacitorCrispPlugin"
+    public let jsName = "CapacitorCrisp"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "configure", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "openMessenger", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setTokenID", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setUser", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "pushEvent", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setCompany", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setString", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "sendMessage", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setInt", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setSegment", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "reset", returnType: CAPPluginReturnPromise)
+    ]
     @objc override public func load() {
         // Called when the plugin is first constructed in the bridge
         print("CapacitorCrispPlugin Initialized")
