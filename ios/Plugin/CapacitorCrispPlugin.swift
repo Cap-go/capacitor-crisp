@@ -7,7 +7,7 @@ import Crisp
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(CapacitorCrispPlugin)
-public class CapacitorCrispPlugin: CAPPlugin {
+public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "CapacitorCrispPlugin"
     public let jsName = "CapacitorCrisp"
     public let pluginMethods: [CAPPluginMethod] = [
