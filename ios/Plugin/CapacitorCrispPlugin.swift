@@ -58,7 +58,7 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
         let phone = call.getString("phone")
         let email = call.getString("email")
         let avatar = call.getString("avatar")
-        
+
         DispatchQueue.main.async {
             if let nickname = nickname {
                 CrispSDK.user.nickname = nickname
