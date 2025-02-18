@@ -54,22 +54,23 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func setUser(_ call: CAPPluginCall) {
-        let nickname = call.getString("nickname") ?? nil
-        let phone = call.getString("phone") ?? nil
-        let email = call.getString("email") ?? nil
-        let avatar = call.getString("avatar") ?? nil
+        let nickname = call.getString("nickname")
+        let phone = call.getString("phone")
+        let email = call.getString("email")
+        let avatar = call.getString("avatar")
+        
         DispatchQueue.main.async {
-            if nickname != nil {
+            if let nickname = nickname {
                 CrispSDK.user.nickname = nickname
             }
-            if phone != nil {
+            if let phone = phone {
                 CrispSDK.user.phone = phone
             }
-            if email != nil {
+            if let email = email {
                 CrispSDK.user.email = email
             }
-            if avatar != nil {
-                CrispSDK.user.avatar = URL(string: avatar ?? "")
+            if let avatar = avatar {
+                CrispSDK.user.avatar = URL(string: avatar)
             }
             call.resolve()
         }
