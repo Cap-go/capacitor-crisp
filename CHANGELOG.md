@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.1.3](https://github.com/Cap-go/capacitor-crisp/compare/7.1.2...7.1.3) (2025-02-10)
+
+### [7.1.2](https://github.com/Cap-go/capacitor-crisp/compare/7.1.1...7.1.2) (2025-02-09)
+
+
+### Bug Fixes
+
+* missing class ([ef6db59](https://github.com/Cap-go/capacitor-crisp/commit/ef6db596148ae99c43a20e9fc4d0b14c9aaaad12))
+
 ### [7.1.1](https://github.com/Cap-go/capacitor-crisp/compare/7.1.0...7.1.1) (2025-02-08)
 
 
