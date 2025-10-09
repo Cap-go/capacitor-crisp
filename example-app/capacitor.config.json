@@ -1,0 +1,10 @@
+{
+  "appId": "com.example.capgo.capacitor.crisp",
+  "appName": "@capgo/capacitor-crisp example",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}
