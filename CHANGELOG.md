@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.1.13](https://github.com/Cap-go/capacitor-crisp/compare/7.1.12...7.1.13) (2025-10-09)
+
+
+### Bug Fixes
+
+* switch to ios new arch ([ebed459](https://github.com/Cap-go/capacitor-crisp/commit/ebed4590a7ae04b7d1d6eca415b258f5c57da174))
+
 ## [7.1.12](https://github.com/Cap-go/capacitor-crisp/compare/7.1.11...7.1.12) (2025-10-08)
 
 ## [7.1.11](https://github.com/Cap-go/capacitor-crisp/compare/7.1.10...7.1.11) (2025-10-08)
