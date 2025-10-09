@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "capacitor-swift-pm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ionic-team/capacitor-swift-pm.git",
+      "state" : {
+        "revision" : "eb9a900023fe46671fc3d6f6761cbecc910345f7",
+        "version" : "7.4.3"
+      }
+    },
+    {
+      "identity" : "crisp-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/crisp-im/crisp-sdk-ios.git",
+      "state" : {
+        "revision" : "30991356e5ee97153729c95fa1978f227328980a",
+        "version" : "2.11.0"
+      }
+    }
+  ],
+  "version" : 2
+}
