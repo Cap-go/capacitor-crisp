@@ -205,6 +205,6 @@ reset() => Promise<void>
 
 #### eventColor
 
-<code>"red" | "orange" | "yellow" | "green" | "blue" | "purple" | "pink" | "brown" | "grey" | "black"</code>
+<code>'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink' | 'brown' | 'grey' | 'black'</code>
 
 </docgen-api>
