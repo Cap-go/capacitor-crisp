@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.1.19](https://github.com/Cap-go/capacitor-crisp/compare/7.1.18...7.1.19) (2025-10-15)
+
+
+### Bug Fixes
+
+* lock and lint ([e632cdf](https://github.com/Cap-go/capacitor-crisp/commit/e632cdf7b757c41964962eb7c2706c3de8083307))
+
 ## [7.1.18](https://github.com/Cap-go/capacitor-crisp/compare/7.1.17...7.1.18) (2025-10-15)
 
 
