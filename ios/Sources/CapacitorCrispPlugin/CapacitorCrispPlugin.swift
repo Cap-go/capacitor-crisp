@@ -8,6 +8,7 @@ import Crisp
  */
 @objc(CapacitorCrispPlugin)
 public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
+    private let PLUGIN_VERSION: String = ""
     public let identifier = "CapacitorCrispPlugin"
     public let jsName = "CapacitorCrisp"
     public let pluginMethods: [CAPPluginMethod] = [
@@ -21,7 +22,8 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "sendMessage", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setInt", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setSegment", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "reset", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "reset", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getPluginVersion", returnType: CAPPluginReturnPromise)
     ]
     @objc override public func load() {
         // Called when the plugin is first constructed in the bridge
@@ -159,4 +161,9 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
             call.resolve()
         }
     }
+
+    @objc func getPluginVersion(_ call: CAPPluginCall) {
+        call.resolve(["version": self.PLUGIN_VERSION])
+    }
+
 }

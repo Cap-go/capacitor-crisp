@@ -19,6 +19,8 @@ import org.json.JSONException;
 @CapacitorPlugin(name = "CapacitorCrisp")
 public class CapacitorCrispPlugin extends Plugin {
 
+    private final String PLUGIN_VERSION = "";
+
     protected static final int OPEN_MESSENGER_CODE = 12345; // Unique request code
 
     @PluginMethod
@@ -143,5 +145,16 @@ public class CapacitorCrispPlugin extends Plugin {
     public void reset(PluginCall call) {
         Crisp.resetChatSession(this.getContext());
         call.resolve();
+    }
+
+    @PluginMethod
+    public void getPluginVersion(final PluginCall call) {
+        try {
+            final JSObject ret = new JSObject();
+            ret.put("version", this.PLUGIN_VERSION);
+            call.resolve(ret);
+        } catch (final Exception e) {
+            call.reject("Could not get plugin version", e);
+        }
     }
 }

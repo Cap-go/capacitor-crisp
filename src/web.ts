@@ -118,4 +118,8 @@ export class CapacitorCrispWeb extends WebPlugin implements CapacitorCrispPlugin
     window.$crisp.push(['do', 'session:reset']);
     this.setAutoHide();
   }
+
+  async getPluginVersion(): Promise<{ version: string }> {
+    return { version: 'web' };
+  }
 }
