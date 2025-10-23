@@ -58,6 +58,7 @@ CapacitorCrisp.openMessenger()
 * [`sendMessage(...)`](#sendmessage)
 * [`setSegment(...)`](#setsegment)
 * [`reset()`](#reset)
+* [`getPluginVersion()`](#getpluginversion)
 * [Type Aliases](#type-aliases)
 
 </docgen-index>
@@ -196,6 +197,19 @@ setSegment(data: { segment: string; }) => Promise<void>
 ```typescript
 reset() => Promise<void>
 ```
+
+--------------------
+
+
+### getPluginVersion()
+
+```typescript
+getPluginVersion() => Promise<{ version: string; }>
+```
+
+Get the native Capacitor plugin version
+
+**Returns:** <code>Promise&lt;{ version: string; }&gt;</code>
 
 --------------------
 
