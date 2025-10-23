@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.2.0](https://github.com/Cap-go/capacitor-crisp/compare/7.1.20...7.2.0) (2025-10-23)
+
+
+### Features
+
+* add getPluginVersion method to CapacitorCrispPlugin and implement version retrieval in web and native platforms ([c68e1b9](https://github.com/Cap-go/capacitor-crisp/commit/c68e1b9761fe3191c43f4458cda085fbf02569de))
+
+
+### Bug Fixes
+
+* remove content field from Discord webhook configuration ([85695b5](https://github.com/Cap-go/capacitor-crisp/commit/85695b5605658817c3a43af9f1b50e907db48cd3))
+
 ## [7.1.20](https://github.com/Cap-go/capacitor-crisp/compare/7.1.19...7.1.20) (2025-10-16)
 
 ## [7.1.19](https://github.com/Cap-go/capacitor-crisp/compare/7.1.18...7.1.19) (2025-10-15)
