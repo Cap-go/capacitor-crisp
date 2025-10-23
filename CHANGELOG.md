@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.2.3](https://github.com/Cap-go/capacitor-crisp/compare/7.2.2...7.2.3) (2025-10-23)
+
+
+### Bug Fixes
+
+* add missing import for JSObject in CapacitorCrispPlugin ([90b0056](https://github.com/Cap-go/capacitor-crisp/commit/90b0056a5af08b764e6adc77ba8d4f9f5d10a54e))
+
 ## [7.2.2](https://github.com/Cap-go/capacitor-crisp/compare/7.2.1...7.2.2) (2025-10-23)
 
 
