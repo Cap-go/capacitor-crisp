@@ -2,6 +2,7 @@ package ee.forgr.plugin.crisp;
 
 import android.content.Intent;
 import com.getcapacitor.JSArray;
+import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
