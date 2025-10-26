@@ -7,6 +7,10 @@
 </div>
 Crisp native SDK for capacitor
 
+## Documentation
+
+The most complete doc is available here: https://capgo.app/docs/plugins/crisp/
+
 ## Install
 
 ```bash
