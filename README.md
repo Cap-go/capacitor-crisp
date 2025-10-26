@@ -70,15 +70,21 @@ CapacitorCrisp.openMessenger()
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
+Crisp Chat SDK Plugin for Capacitor.
+Provides live chat and customer support functionality through Crisp.chat.
+
 ### configure(...)
 
 ```typescript
 configure(data: { websiteID: string; }) => Promise<void>
 ```
 
-| Param      | Type                                |
-| ---------- | ----------------------------------- |
-| **`data`** | <code>{ websiteID: string; }</code> |
+Configure the Crisp SDK with your website ID.
+Must be called before using any other methods.
+
+| Param      | Type                                | Description            |
+| ---------- | ----------------------------------- | ---------------------- |
+| **`data`** | <code>{ websiteID: string; }</code> | - Configuration object |
 
 --------------------
 
@@ -89,6 +95,9 @@ configure(data: { websiteID: string; }) => Promise<void>
 openMessenger() => Promise<void>
 ```
 
+Open the Crisp messenger chat window.
+Shows the chat interface to the user.
+
 --------------------
 
 
@@ -98,9 +107,12 @@ openMessenger() => Promise<void>
 setTokenID(data: { tokenID: string; }) => Promise<void>
 ```
 
-| Param      | Type                              |
-| ---------- | --------------------------------- |
-| **`data`** | <code>{ tokenID: string; }</code> |
+Set a unique token ID for the current user session.
+Used to identify and restore previous conversations.
+
+| Param      | Type                              | Description         |
+| ---------- | --------------------------------- | ------------------- |
+| **`data`** | <code>{ tokenID: string; }</code> | - Token data object |
 
 --------------------
 
@@ -111,9 +123,12 @@ setTokenID(data: { tokenID: string; }) => Promise<void>
 setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: string; }) => Promise<void>
 ```
 
-| Param      | Type                                                                                 |
-| ---------- | ------------------------------------------------------------------------------------ |
-| **`data`** | <code>{ nickname?: string; phone?: string; email?: string; avatar?: string; }</code> |
+Set user information for the current session.
+Updates the user profile visible to support agents.
+
+| Param      | Type                                                                                 | Description               |
+| ---------- | ------------------------------------------------------------------------------------ | ------------------------- |
+| **`data`** | <code>{ nickname?: string; phone?: string; email?: string; avatar?: string; }</code> | - User information object |
 
 --------------------
 
@@ -124,9 +139,12 @@ setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: stri
 pushEvent(data: { name: string; color: eventColor; }) => Promise<void>
 ```
 
-| Param      | Type                                                                        |
-| ---------- | --------------------------------------------------------------------------- |
-| **`data`** | <code>{ name: string; color: <a href="#eventcolor">eventColor</a>; }</code> |
+Push a custom event to Crisp.
+Useful for tracking user actions and behavior.
+
+| Param      | Type                                                                        | Description         |
+| ---------- | --------------------------------------------------------------------------- | ------------------- |
+| **`data`** | <code>{ name: string; color: <a href="#eventcolor">eventColor</a>; }</code> | - Event data object |
 
 --------------------
 
@@ -137,9 +155,12 @@ pushEvent(data: { name: string; color: eventColor; }) => Promise<void>
 setCompany(data: { name: string; url?: string; description?: string; employment?: [title: string, role: string]; geolocation?: [country: string, city: string]; }) => Promise<void>
 ```
 
-| Param      | Type                                                                                                                                                          |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`data`** | <code>{ name: string; url?: string; description?: string; employment?: [title: string, role: string]; geolocation?: [country: string, city: string]; }</code> |
+Set company information for the current session.
+Associates the user with a company in Crisp.
+
+| Param      | Type                                                                                                                                                          | Description                  |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| **`data`** | <code>{ name: string; url?: string; description?: string; employment?: [title: string, role: string]; geolocation?: [country: string, city: string]; }</code> | - Company information object |
 
 --------------------
 
@@ -150,9 +171,12 @@ setCompany(data: { name: string; url?: string; description?: string; employment?
 setInt(data: { key: string; value: number; }) => Promise<void>
 ```
 
-| Param      | Type                                         |
-| ---------- | -------------------------------------------- |
-| **`data`** | <code>{ key: string; value: number; }</code> |
+Set a custom integer data field.
+Stores numerical data associated with the user session.
+
+| Param      | Type                                         | Description           |
+| ---------- | -------------------------------------------- | --------------------- |
+| **`data`** | <code>{ key: string; value: number; }</code> | - Integer data object |
 
 --------------------
 
@@ -163,9 +187,12 @@ setInt(data: { key: string; value: number; }) => Promise<void>
 setString(data: { key: string; value: string; }) => Promise<void>
 ```
 
-| Param      | Type                                         |
-| ---------- | -------------------------------------------- |
-| **`data`** | <code>{ key: string; value: string; }</code> |
+Set a custom string data field.
+Stores text data associated with the user session.
+
+| Param      | Type                                         | Description          |
+| ---------- | -------------------------------------------- | -------------------- |
+| **`data`** | <code>{ key: string; value: string; }</code> | - String data object |
 
 --------------------
 
@@ -176,9 +203,12 @@ setString(data: { key: string; value: string; }) => Promise<void>
 sendMessage(data: { value: string; }) => Promise<void>
 ```
 
-| Param      | Type                            |
-| ---------- | ------------------------------- |
-| **`data`** | <code>{ value: string; }</code> |
+Send a message from the user to the chat.
+Programmatically send a message as if the user typed it.
+
+| Param      | Type                            | Description           |
+| ---------- | ------------------------------- | --------------------- |
+| **`data`** | <code>{ value: string; }</code> | - Message data object |
 
 --------------------
 
@@ -189,9 +219,12 @@ sendMessage(data: { value: string; }) => Promise<void>
 setSegment(data: { segment: string; }) => Promise<void>
 ```
 
-| Param      | Type                              |
-| ---------- | --------------------------------- |
-| **`data`** | <code>{ segment: string; }</code> |
+Set a user segment for targeting and organization.
+Used to categorize users in the Crisp dashboard.
+
+| Param      | Type                              | Description           |
+| ---------- | --------------------------------- | --------------------- |
+| **`data`** | <code>{ segment: string; }</code> | - Segment data object |
 
 --------------------
 
@@ -202,6 +235,10 @@ setSegment(data: { segment: string; }) => Promise<void>
 reset() => Promise<void>
 ```
 
+Reset the Crisp session.
+Clears all user data and starts a fresh session.
+Useful when user logs out.
+
 --------------------
 
 
@@ -211,7 +248,7 @@ reset() => Promise<void>
 getPluginVersion() => Promise<{ version: string; }>
 ```
 
-Get the native Capacitor plugin version
+Get the plugin version number.
 
 **Returns:** <code>Promise&lt;{ version: string; }&gt;</code>
 
@@ -222,6 +259,9 @@ Get the native Capacitor plugin version
 
 
 #### eventColor
+
+Available colors for Crisp events.
+Used to visually categorize events in the Crisp dashboard.
 
 <code>'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink' | 'brown' | 'grey' | 'black'</code>
 
