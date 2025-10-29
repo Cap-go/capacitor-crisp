@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.2.10](https://github.com/Cap-go/capacitor-crisp/compare/7.2.9...7.2.10) (2025-10-29)
+
+
+### Bug Fixes
+
+* CI/CD config ([2c2afd8](https://github.com/Cap-go/capacitor-crisp/commit/2c2afd816155d11915ee884028be8d6f8ee6178a))
+* update AI model in build workflow ([f64f32f](https://github.com/Cap-go/capacitor-crisp/commit/f64f32f7c1cf84f973de72489fa039f5d8749bd1))
+* update github action ([4f3ae1b](https://github.com/Cap-go/capacitor-crisp/commit/4f3ae1b698bb826d403e0ea6c0170e4a8b1aae2a))
+
 ## [7.2.9](https://github.com/Cap-go/capacitor-crisp/compare/7.2.8...7.2.9) (2025-10-27)
 
 
