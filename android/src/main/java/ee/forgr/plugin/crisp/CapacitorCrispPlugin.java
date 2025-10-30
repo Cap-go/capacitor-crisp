@@ -20,7 +20,7 @@ import org.json.JSONException;
 @CapacitorPlugin(name = "CapacitorCrisp")
 public class CapacitorCrispPlugin extends Plugin {
 
-    private final String PLUGIN_VERSION = "7.2.11";
+    private final String pluginVersion = "7.2.11";
 
     protected static final int OPEN_MESSENGER_CODE = 12345; // Unique request code
 
@@ -152,7 +152,7 @@ public class CapacitorCrispPlugin extends Plugin {
     public void getPluginVersion(final PluginCall call) {
         try {
             final JSObject ret = new JSObject();
-            ret.put("version", this.PLUGIN_VERSION);
+            ret.put("version", this.pluginVersion);
             call.resolve(ret);
         } catch (final Exception e) {
             call.reject("Could not get plugin version", e);
