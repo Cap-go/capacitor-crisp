@@ -7,6 +7,17 @@
 </div>
 Crisp native SDK for capacitor
 
+## Why Capacitor Crisp?
+
+The only free Capacitor plugin for integrating Crisp.chat's native SDK into your mobile apps. Crisp is a powerful customer support and messaging platform, and this plugin provides:
+
+- **Native SDK integration** - Full access to Crisp's native mobile SDKs for iOS and Android
+- **Rich messaging features** - Live chat, user profiles, custom data, events, and segmentation
+- **Two-way communication** - Send messages programmatically and track user behavior
+- **Complete API** - Full feature parity with Crisp's JavaScript API
+
+Perfect for apps needing customer support, helpdesk functionality, or user engagement tools.
+
 ## Documentation
 
 The most complete doc is available here: https://capgo.app/docs/plugins/crisp/
