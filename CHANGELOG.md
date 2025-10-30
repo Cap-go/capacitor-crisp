@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [7.2.11](https://github.com/Cap-go/capacitor-crisp/compare/7.2.10...7.2.11) (2025-10-30)
+
+
+### Bug Fixes
+
+* add additional keywords to package.json for improved discoverability ([6c04c55](https://github.com/Cap-go/capacitor-crisp/commit/6c04c55e6e780c050335b331166458f0b98d9f19))
+
 ## [7.2.10](https://github.com/Cap-go/capacitor-crisp/compare/7.2.9...7.2.10) (2025-10-29)
 
 
