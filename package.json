@@ -29,7 +29,13 @@
     "plugin",
     "ionic",
     "crisp",
-    "native"
+    "native",
+    "chat",
+    "support",
+    "customer-support",
+    "messaging",
+    "live-chat",
+    "helpdesk"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
