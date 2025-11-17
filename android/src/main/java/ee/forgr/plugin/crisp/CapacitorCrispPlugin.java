@@ -20,7 +20,7 @@ import org.json.JSONException;
 @CapacitorPlugin(name = "CapacitorCrisp")
 public class CapacitorCrispPlugin extends Plugin {
 
-    private final String pluginVersion = "7.2.17";
+    private final String pluginVersion = "7.2.18";
 
     protected static final int OPEN_MESSENGER_CODE = 12345; // Unique request code
 
