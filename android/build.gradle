@@ -47,10 +47,6 @@ android {
 repositories {
     google()
     mavenCentral()
-
-    maven {
-        url = 'https://dl.bintray.com/crispim/crisp-maven'
-    }
 }
 
 
@@ -59,7 +55,7 @@ dependencies {
     implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     testImplementation "junit:junit:$junitVersion"
-    implementation 'im.crisp:crisp-sdk:2.0.15'
+    implementation 'im.crisp:crisp-sdk:2.0.16'
     implementation 'androidx.multidex:multidex:2.0.1'
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
