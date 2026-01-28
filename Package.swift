@@ -10,7 +10,7 @@ let package = Package(
             targets: ["CapacitorCrispPlugin"])
     ],
     dependencies: [
-        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.1"),
+        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.0"),
         .package(url: "https://github.com/crisp-im/crisp-sdk-ios.git", from: "2.12.0")
     ],
     targets: [
