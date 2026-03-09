@@ -15,6 +15,7 @@ import im.crisp.client.external.data.Geolocation;
 import im.crisp.client.external.data.SessionEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
 import org.json.JSONException;
 
 @CapacitorPlugin(name = "CapacitorCrisp")
@@ -27,7 +28,16 @@ public class CapacitorCrispPlugin extends Plugin {
     @PluginMethod
     public void configure(PluginCall call) {
         String websiteID = call.getString("websiteID");
-        Crisp.configure(this.getContext(), websiteID);
+        String tokenID = call.getString("tokenID");
+        String locale = call.getString("locale");
+        if (tokenID != null && !tokenID.isEmpty()) {
+            Crisp.configure(this.getContext(), websiteID, tokenID);
+        } else {
+            Crisp.configure(this.getContext(), websiteID);
+        }
+        if (locale != null && !locale.isEmpty()) {
+            Crisp.setLocale(Locale.forLanguageTag(locale));
+        }
         call.resolve();
     }
 

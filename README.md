@@ -98,15 +98,15 @@ Provides live chat and customer support functionality through Crisp.chat.
 ### configure(...)
 
 ```typescript
-configure(data: { websiteID: string; }) => Promise<void>
+configure(data: { websiteID: string; tokenID?: string; locale?: string; }) => Promise<void>
 ```
 
 Configure the Crisp SDK with your website ID.
 Must be called before using any other methods.
 
-| Param      | Type                                | Description            |
-| ---------- | ----------------------------------- | ---------------------- |
-| **`data`** | <code>{ websiteID: string; }</code> | - Configuration object |
+| Param      | Type                                                                   | Description            |
+| ---------- | ---------------------------------------------------------------------- | ---------------------- |
+| **`data`** | <code>{ websiteID: string; tokenID?: string; locale?: string; }</code> | - Configuration object |
 
 --------------------
 

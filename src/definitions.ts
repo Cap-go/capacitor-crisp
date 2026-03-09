@@ -25,13 +25,15 @@ export interface CapacitorCrispPlugin {
    *
    * @param data - Configuration object
    * @param data.websiteID - Your Crisp website ID from dashboard
+   * @param data.tokenID - Optional unique token to identify and restore a user session
+   * @param data.locale - Optional locale code to set the chat language (e.g., 'en', 'fr', 'es'). Not supported on iOS.
    * @returns Promise that resolves when configuration is complete
    * @example
    * ```typescript
-   * await CrispPlugin.configure({ websiteID: 'YOUR_WEBSITE_ID' });
+   * await CrispPlugin.configure({ websiteID: 'YOUR_WEBSITE_ID', tokenID: 'USER_TOKEN', locale: 'fr' });
    * ```
    */
-  configure(data: { websiteID: string }): Promise<void>;
+  configure(data: { websiteID: string; tokenID?: string; locale?: string }): Promise<void>;
 
   /**
    * Open the Crisp messenger chat window.

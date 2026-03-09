@@ -42,7 +42,13 @@ export class CapacitorCrispWeb extends WebPlugin implements CapacitorCrispPlugin
     );
   }
 
-  async configure(data: { websiteID: string }): Promise<void> {
+  async configure(data: { websiteID: string; tokenID?: string; locale?: string }): Promise<void> {
+    if (data.tokenID) {
+      window.CRISP_TOKEN_ID = data.tokenID;
+    }
+    if (data.locale) {
+      window.$crisp.push(['set', 'session:locale', [data.locale]]);
+    }
     window.CRISP_WEBSITE_ID = data.websiteID;
   }
 
