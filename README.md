@@ -85,6 +85,7 @@ CapacitorCrisp.openMessenger()
 * [`setSegment(...)`](#setsegment)
 * [`reset()`](#reset)
 * [`getPluginVersion()`](#getpluginversion)
+* [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
 </docgen-index>
@@ -98,15 +99,15 @@ Provides live chat and customer support functionality through Crisp.chat.
 ### configure(...)
 
 ```typescript
-configure(data: { websiteID: string; }) => Promise<void>
+configure(data: ConfigureOptions) => Promise<void>
 ```
 
 Configure the Crisp SDK with your website ID.
 Must be called before using any other methods.
 
-| Param      | Type                                | Description            |
-| ---------- | ----------------------------------- | ---------------------- |
-| **`data`** | <code>{ websiteID: string; }</code> | - Configuration object |
+| Param      | Type                                                          | Description            |
+| ---------- | ------------------------------------------------------------- | ---------------------- |
+| **`data`** | <code><a href="#configureoptions">ConfigureOptions</a></code> | - Configuration object |
 
 --------------------
 
@@ -275,6 +276,20 @@ Get the plugin version number.
 **Returns:** <code>Promise&lt;{ version: string; }&gt;</code>
 
 --------------------
+
+
+### Interfaces
+
+
+#### ConfigureOptions
+
+Configuration for initializing Crisp.
+
+| Prop            | Type                | Description                                                                                                                                    |
+| --------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`websiteID`** | <code>string</code> | Your Crisp website ID from dashboard.                                                                                                          |
+| **`locale`**    | <code>string</code> | Optional - Locale to force in the Crisp web chat widget (ISO 639-1), eg. `en`, `fr`, `es`. Web only: native SDKs follow the device/app locale. |
+| **`tokenID`**   | <code>string</code> | Optional - Unique token identifier for the user session continuity.                                                                            |
 
 
 ### Type Aliases

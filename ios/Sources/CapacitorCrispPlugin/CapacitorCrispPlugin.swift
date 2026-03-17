@@ -31,10 +31,17 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func configure(_ call: CAPPluginCall) {
-        let websiteID = call.getString("websiteID") ?? ""
+        guard let websiteID = call.getString("websiteID"), !websiteID.isEmpty else {
+            call.reject("websiteID is required")
+            return
+        }
+        let tokenID = call.getString("tokenID")
         print("Crisp Configure " + websiteID)
         DispatchQueue.main.async {
             CrispSDK.configure(websiteID: websiteID)
+            if let tokenID = tokenID, !tokenID.isEmpty {
+                CrispSDK.setTokenID(tokenID: tokenID)
+            }
             call.resolve()
         }
     }
