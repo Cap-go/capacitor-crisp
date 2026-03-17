@@ -1,5 +1,6 @@
 package ee.forgr.plugin.crisp;
 
+import android.content.Context;
 import android.content.Intent;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
@@ -24,8 +25,17 @@ public class CapacitorCrispPlugin extends Plugin {
 
     protected static final int OPEN_MESSENGER_CODE = 12345; // Unique request code
 
+    private Context getCrispContext() {
+        Context activity = this.getActivity();
+        if (activity != null) {
+            return activity;
+        }
+        return this.getContext();
+    }
+
     @PluginMethod
     public void configure(PluginCall call) {
+        Context crispContext = this.getCrispContext();
         String websiteID = call.getString("websiteID");
         String tokenID = call.getString("tokenID");
         if (websiteID == null || websiteID.isEmpty()) {
@@ -33,29 +43,33 @@ public class CapacitorCrispPlugin extends Plugin {
             return;
         }
         if (tokenID != null && !tokenID.isEmpty()) {
-            Crisp.configure(this.getContext(), websiteID, tokenID);
+            Crisp.configure(crispContext, websiteID, tokenID);
         } else {
-            Crisp.configure(this.getContext(), websiteID);
+            Crisp.configure(crispContext, websiteID);
         }
         call.resolve();
     }
 
     @PluginMethod
     public void setTokenID(PluginCall call) {
+        Context crispContext = this.getCrispContext();
         String tokenID = call.getString("tokenID");
         if (tokenID == null || tokenID.isEmpty()) {
             call.reject("tokenID is required");
             return;
         }
-        Crisp.setTokenID(this.getContext(), tokenID);
+        Crisp.setTokenID(crispContext, tokenID);
         call.resolve();
     }
 
     @PluginMethod
     public void openMessenger(PluginCall call) {
-        String value = call.getString("value");
-        Intent crispIntent = new Intent(this.getContext(), ChatActivity.class);
-        this.getContext().startActivity(crispIntent);
+        Context crispContext = this.getCrispContext();
+        Intent crispIntent = new Intent(crispContext, ChatActivity.class);
+        if (this.getActivity() == null) {
+            crispIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        crispContext.startActivity(crispIntent);
         call.resolve();
     }
 
@@ -164,7 +178,7 @@ public class CapacitorCrispPlugin extends Plugin {
 
     @PluginMethod
     public void reset(PluginCall call) {
-        Crisp.resetChatSession(this.getContext());
+        Crisp.resetChatSession(this.getCrispContext());
         call.resolve();
     }
 
