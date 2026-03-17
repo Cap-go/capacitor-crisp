@@ -27,7 +27,27 @@ public class CapacitorCrispPlugin extends Plugin {
     @PluginMethod
     public void configure(PluginCall call) {
         String websiteID = call.getString("websiteID");
-        Crisp.configure(this.getContext(), websiteID);
+        String tokenID = call.getString("tokenID");
+        if (websiteID == null || websiteID.isEmpty()) {
+            call.reject("websiteID is required");
+            return;
+        }
+        if (tokenID != null && !tokenID.isEmpty()) {
+            Crisp.configure(this.getContext(), websiteID, tokenID);
+        } else {
+            Crisp.configure(this.getContext(), websiteID);
+        }
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void setTokenID(PluginCall call) {
+        String tokenID = call.getString("tokenID");
+        if (tokenID == null || tokenID.isEmpty()) {
+            call.reject("tokenID is required");
+            return;
+        }
+        Crisp.setTokenID(this.getContext(), tokenID);
         call.resolve();
     }
 

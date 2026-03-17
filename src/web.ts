@@ -1,24 +1,22 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { CapacitorCrispPlugin, eventColor } from './definitions';
+import type { CapacitorCrispPlugin, ConfigureOptions, eventColor } from './definitions';
 
 declare global {
   interface Window {
     $crisp: unknown[];
     CRISP_WEBSITE_ID: string;
-    CRISP_TOKEN_ID: string;
+    CRISP_TOKEN_ID?: string;
+    CRISP_RUNTIME_CONFIG?: { locale?: string };
   }
 }
 
 export class CapacitorCrispWeb extends WebPlugin implements CapacitorCrispPlugin {
+  private scriptLoaded = false;
+
   constructor() {
     super();
     window.$crisp = [];
-    const s = document.createElement('script');
-    s.src = 'https://client.crisp.chat/l.js';
-    s.async = true;
-    document.getElementsByTagName('head')[0].appendChild(s);
-    this.setAutoHide();
   }
 
   private setAutoHide() {
@@ -42,8 +40,32 @@ export class CapacitorCrispWeb extends WebPlugin implements CapacitorCrispPlugin
     );
   }
 
-  async configure(data: { websiteID: string }): Promise<void> {
+  private loadScript() {
+    const existingScript = document.querySelector('script[data-capgo-crisp="true"]');
+    if (existingScript) {
+      this.scriptLoaded = true;
+      return;
+    }
+    const s = document.createElement('script');
+    s.src = 'https://client.crisp.chat/l.js';
+    s.async = true;
+    s.dataset.capgoCrisp = 'true';
+    document.getElementsByTagName('head')[0].appendChild(s);
+    this.scriptLoaded = true;
+  }
+
+  async configure(data: ConfigureOptions): Promise<void> {
     window.CRISP_WEBSITE_ID = data.websiteID;
+    if (data.locale) {
+      window.CRISP_RUNTIME_CONFIG = { ...(window.CRISP_RUNTIME_CONFIG ?? {}), locale: data.locale };
+    }
+    if (data.tokenID) {
+      window.CRISP_TOKEN_ID = data.tokenID;
+    }
+    if (!this.scriptLoaded) {
+      this.loadScript();
+      this.setAutoHide();
+    }
   }
 
   async openMessenger(): Promise<void> {

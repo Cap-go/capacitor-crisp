@@ -15,6 +15,25 @@ export type eventColor =
   | 'black';
 
 /**
+ * Configuration for initializing Crisp.
+ */
+export interface ConfigureOptions {
+  /**
+   * Your Crisp website ID from dashboard.
+   */
+  websiteID: string;
+  /**
+   * Locale to force in the Crisp web chat widget (ISO 639-1), eg. `en`, `fr`, `es`.
+   * Web only: native SDKs follow the device/app locale.
+   */
+  locale?: string;
+  /**
+   * Unique token identifier for the user session continuity.
+   */
+  tokenID?: string;
+}
+
+/**
  * Crisp Chat SDK Plugin for Capacitor.
  * Provides live chat and customer support functionality through Crisp.chat.
  */
@@ -25,13 +44,15 @@ export interface CapacitorCrispPlugin {
    *
    * @param data - Configuration object
    * @param data.websiteID - Your Crisp website ID from dashboard
+   * @param data.locale - Optional web locale override (ISO 639-1)
+   * @param data.tokenID - Optional session continuity token
    * @returns Promise that resolves when configuration is complete
    * @example
    * ```typescript
    * await CrispPlugin.configure({ websiteID: 'YOUR_WEBSITE_ID' });
    * ```
    */
-  configure(data: { websiteID: string }): Promise<void>;
+  configure(data: ConfigureOptions): Promise<void>;
 
   /**
    * Open the Crisp messenger chat window.
