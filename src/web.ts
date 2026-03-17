@@ -13,6 +13,7 @@ declare global {
 
 export class CapacitorCrispWeb extends WebPlugin implements CapacitorCrispPlugin {
   private scriptLoaded = false;
+  private scriptLoadingPromise?: Promise<void>;
 
   constructor() {
     super();
@@ -40,22 +41,46 @@ export class CapacitorCrispWeb extends WebPlugin implements CapacitorCrispPlugin
     );
   }
 
-  private loadScript() {
-    const existingScript = document.querySelector('script[data-capgo-crisp="true"]');
-    if (existingScript) {
-      this.scriptLoaded = true;
-      return;
+  private loadScript(): Promise<void> {
+    if (this.scriptLoaded) {
+      return Promise.resolve();
     }
-    const s = document.createElement('script');
-    s.src = 'https://client.crisp.chat/l.js';
-    s.async = true;
-    s.dataset.capgoCrisp = 'true';
-    document.getElementsByTagName('head')[0].appendChild(s);
-    this.scriptLoaded = true;
+    if (this.scriptLoadingPromise) {
+      return this.scriptLoadingPromise;
+    }
+
+    const existingScript = document.querySelector<HTMLScriptElement>('script[data-capgo-crisp="true"]');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    this.scriptLoadingPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://client.crisp.chat/l.js';
+      s.async = true;
+      s.dataset.capgoCrisp = 'true';
+      s.onload = () => {
+        this.scriptLoaded = true;
+        this.scriptLoadingPromise = undefined;
+        resolve();
+      };
+      s.onerror = () => {
+        this.scriptLoaded = false;
+        this.scriptLoadingPromise = undefined;
+        s.remove();
+        reject(new Error('Failed to load Crisp script'));
+      };
+      document.getElementsByTagName('head')[0].appendChild(s);
+    });
+
+    return this.scriptLoadingPromise;
   }
 
   async configure(data: ConfigureOptions): Promise<void> {
-    window.CRISP_WEBSITE_ID = data.websiteID;
+    if (typeof data.websiteID !== 'string' || data.websiteID.trim() === '') {
+      throw new Error('websiteID is required');
+    }
+    window.CRISP_WEBSITE_ID = data.websiteID.trim();
     if (data.locale) {
       window.CRISP_RUNTIME_CONFIG = { ...(window.CRISP_RUNTIME_CONFIG ?? {}), locale: data.locale };
     }
@@ -63,7 +88,7 @@ export class CapacitorCrispWeb extends WebPlugin implements CapacitorCrispPlugin
       window.CRISP_TOKEN_ID = data.tokenID;
     }
     if (!this.scriptLoaded) {
-      this.loadScript();
+      await this.loadScript();
       this.setAutoHide();
     }
   }

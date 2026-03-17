@@ -23,12 +23,12 @@ export interface ConfigureOptions {
    */
   websiteID: string;
   /**
-   * Locale to force in the Crisp web chat widget (ISO 639-1), eg. `en`, `fr`, `es`.
+   * Optional - Locale to force in the Crisp web chat widget (ISO 639-1), eg. `en`, `fr`, `es`.
    * Web only: native SDKs follow the device/app locale.
    */
   locale?: string;
   /**
-   * Unique token identifier for the user session continuity.
+   * Optional - Unique token identifier for the user session continuity.
    */
   tokenID?: string;
 }
