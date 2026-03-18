@@ -101,22 +101,31 @@ public class CapacitorCrispPlugin extends Plugin {
         switch (color) {
             case "red":
                 Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.RED));
+                break;
             case "orange":
                 Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.ORANGE));
+                break;
             case "yellow":
                 Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.YELLOW));
+                break;
             case "green":
                 Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.GREEN));
+                break;
             case "purple":
                 Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.PURPLE));
+                break;
             case "pink":
                 Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.PINK));
+                break;
             case "brown":
                 Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.BROWN));
+                break;
             case "grey":
                 Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.GREY));
+                break;
             case "black":
                 Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.BLACK));
+                break;
             default:
                 Crisp.pushSessionEvent(new SessionEvent(name, SessionEvent.Color.BLUE));
         }
