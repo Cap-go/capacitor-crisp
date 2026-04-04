@@ -55,7 +55,10 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func setTokenID(_ call: CAPPluginCall) {
-        let tokenID = call.getString("tokenID") ?? ""
+        guard let tokenID = call.getString("tokenID"), !tokenID.isEmpty else {
+            call.reject("tokenID is required")
+            return
+        }
         DispatchQueue.main.async {
             CrispSDK.setTokenID(tokenID: tokenID)
             call.resolve()

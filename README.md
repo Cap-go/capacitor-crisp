@@ -61,6 +61,19 @@ to your app's Info.plist.
 ### Android Integration
 Nothing special to do.
 
+## Configure Crisp
+
+Call `configure` once before any other method to pass your website ID and optional session options. `locale` only affects the web implementation; mobile follows the device/app locale.
+
+```ts
+import { CapacitorCrisp } from '@capgo/capacitor-crisp';
+
+await CapacitorCrisp.configure({
+  websiteID: 'YOUR_WEBSITE_ID',
+  locale: 'en', // Optional - web only
+  tokenID: 'user-123', // Optional session token
+});
+```
 
 ## Open chatbox
 
