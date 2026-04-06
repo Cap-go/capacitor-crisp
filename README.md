@@ -285,11 +285,11 @@ Get the plugin version number.
 
 Configuration for initializing Crisp.
 
-| Prop            | Type                | Description                                                                                                                                    |
-| --------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`websiteID`** | <code>string</code> | Your Crisp website ID from dashboard.                                                                                                          |
-| **`locale`**    | <code>string</code> | Optional - Locale to force in the Crisp web chat widget (ISO 639-1), eg. `en`, `fr`, `es`. Web only: native SDKs follow the device/app locale. |
-| **`tokenID`**   | <code>string</code> | Optional - Unique token identifier for the user session continuity.                                                                            |
+| Prop            | Type                | Description                                                                                                                                                            |
+| --------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`websiteID`** | <code>string</code> | Your Crisp website ID from dashboard.                                                                                                                                  |
+| **`locale`**    | <code>string</code> | Optional - Locale to force in the Crisp chat widget (ISO 639-1), eg. `en`, `fr`, `es`. Web + Android: overrides the runtime locale. iOS follows the device/app locale. |
+| **`tokenID`**   | <code>string</code> | Optional - Unique token identifier for the user session continuity.                                                                                                    |
 
 
 ### Type Aliases

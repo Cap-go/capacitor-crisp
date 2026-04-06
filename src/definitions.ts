@@ -23,8 +23,8 @@ export interface ConfigureOptions {
    */
   websiteID: string;
   /**
-   * Optional - Locale to force in the Crisp web chat widget (ISO 639-1), eg. `en`, `fr`, `es`.
-   * Web only: native SDKs follow the device/app locale.
+   * Optional - Locale to force in the Crisp chat widget (ISO 639-1), eg. `en`, `fr`, `es`.
+   * Web + Android: overrides the runtime locale. iOS follows the device/app locale.
    */
   locale?: string;
   /**
