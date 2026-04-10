@@ -2,6 +2,8 @@ package ee.forgr.plugin.crisp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Build;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -16,6 +18,7 @@ import im.crisp.client.external.data.Geolocation;
 import im.crisp.client.external.data.SessionEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
 import org.json.JSONException;
 
 @CapacitorPlugin(name = "CapacitorCrisp")
@@ -25,6 +28,8 @@ public class CapacitorCrispPlugin extends Plugin {
 
     protected static final int OPEN_MESSENGER_CODE = 12345; // Unique request code
 
+    private Locale configuredLocale;
+
     private Context getCrispContext() {
         Context activity = this.getActivity();
         if (activity != null) {
@@ -33,15 +38,48 @@ public class CapacitorCrispPlugin extends Plugin {
         return this.getContext();
     }
 
+    private Context applyConfiguredLocale(Context context) {
+        if (this.configuredLocale == null) {
+            return context;
+        }
+        Locale.setDefault(this.configuredLocale);
+        Configuration configuration = new Configuration(context.getResources().getConfiguration());
+        configuration.setLocale(this.configuredLocale);
+        configuration.setLayoutDirection(this.configuredLocale);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return context.createConfigurationContext(configuration);
+        }
+        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+        return context;
+    }
+
+    private void setLocaleFromTag(String localeTag) {
+        if (localeTag == null || localeTag.isEmpty()) {
+            this.configuredLocale = null;
+            return;
+        }
+        Locale locale = Locale.forLanguageTag(localeTag);
+        if (locale.getLanguage().isEmpty()) {
+            locale = new Locale(localeTag);
+        }
+        if (locale.getLanguage().isEmpty()) {
+            return;
+        }
+        this.configuredLocale = locale;
+    }
+
     @PluginMethod
     public void configure(PluginCall call) {
         Context crispContext = this.getCrispContext();
         String websiteID = call.getString("websiteID");
         String tokenID = call.getString("tokenID");
+        String localeTag = call.getString("locale");
         if (websiteID == null || websiteID.isEmpty()) {
             call.reject("websiteID is required");
             return;
         }
+        this.setLocaleFromTag(localeTag);
+        crispContext = this.applyConfiguredLocale(crispContext);
         if (tokenID != null && !tokenID.isEmpty()) {
             Crisp.configure(crispContext, websiteID, tokenID);
         } else {
@@ -52,7 +90,7 @@ public class CapacitorCrispPlugin extends Plugin {
 
     @PluginMethod
     public void setTokenID(PluginCall call) {
-        Context crispContext = this.getCrispContext();
+        Context crispContext = this.applyConfiguredLocale(this.getCrispContext());
         String tokenID = call.getString("tokenID");
         if (tokenID == null || tokenID.isEmpty()) {
             call.reject("tokenID is required");
@@ -64,7 +102,7 @@ public class CapacitorCrispPlugin extends Plugin {
 
     @PluginMethod
     public void openMessenger(PluginCall call) {
-        Context crispContext = this.getCrispContext();
+        Context crispContext = this.applyConfiguredLocale(this.getCrispContext());
         Intent crispIntent = new Intent(crispContext, ChatActivity.class);
         if (this.getActivity() == null) {
             crispIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
