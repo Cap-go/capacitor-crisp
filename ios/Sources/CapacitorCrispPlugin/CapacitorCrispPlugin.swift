@@ -8,7 +8,7 @@ import Crisp
  */
 @objc(CapacitorCrispPlugin)
 public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
-    private let pluginVersion: String = "8.0.27"
+    private let pluginVersion: String = "8.0.28"
     public let identifier = "CapacitorCrispPlugin"
     public let jsName = "CapacitorCrisp"
     public let pluginMethods: [CAPPluginMethod] = [
