@@ -7,51 +7,60 @@ import { CapacitorCrisp } from '@capgo/capacitor-crisp';
 const plugin = CapacitorCrisp;
 const state = {};
 
-
 const actions = [
-{
-              id: 'configure',
-              label: 'Configure website ID',
-              description: 'Initialises the Crisp SDK with your website ID.',
-              inputs: [{ name: 'websiteID', label: 'Crisp website ID', type: 'text', placeholder: 'YOUR_WEBSITE_ID' }],
-              run: async (values) => {
-                if (!values.websiteID) {
-  throw new Error('Provide a website ID.');
-}
-await plugin.configure({ websiteID: values.websiteID });
-return 'Configured Crisp website ID.';
-              },
-            },
-{
-              id: 'set-session-data',
-              label: 'Set session data value',
-              description: 'Stores a key/value pair on the Crisp session data store.',
-              inputs: [{ name: 'key', label: 'Key', type: 'text', value: 'language' }, { name: 'value', label: 'Value', type: 'text', value: 'en' }],
-              run: async (values) => {
-                await plugin.setString({ key: values.key || 'example', value: values.value ?? '' });
-return 'Session data updated.';
-              },
-            },
-{
-              id: 'open-messenger',
-              label: 'Open Crisp messenger',
-              description: 'Opens the Crisp messenger overlay.',
-              inputs: [],
-              run: async (values) => {
-                await plugin.openMessenger();
-return 'Requested to open messenger.';
-              },
-            },
-{
-              id: 'reset-session',
-              label: 'Reset session',
-              description: 'Resets the Crisp session and clears stored data.',
-              inputs: [],
-              run: async (values) => {
-                await plugin.reset();
-return 'Session reset requested.';
-              },
-            }
+  {
+    id: 'configure',
+    label: 'Configure website ID',
+    description: 'Initialises the Crisp SDK with your website ID.',
+    inputs: [
+      {
+        name: 'websiteID',
+        label: 'Crisp website ID',
+        type: 'text',
+        placeholder: 'YOUR_WEBSITE_ID',
+      },
+    ],
+    run: async (values) => {
+      if (!values.websiteID) {
+        throw new Error('Provide a website ID.');
+      }
+      await plugin.configure({ websiteID: values.websiteID });
+      return 'Configured Crisp website ID.';
+    },
+  },
+  {
+    id: 'set-session-data',
+    label: 'Set session data value',
+    description: 'Stores a key/value pair on the Crisp session data store.',
+    inputs: [
+      { name: 'key', label: 'Key', type: 'text', value: 'language' },
+      { name: 'value', label: 'Value', type: 'text', value: 'en' },
+    ],
+    run: async (values) => {
+      await plugin.setString({ key: values.key || 'example', value: values.value ?? '' });
+      return 'Session data updated.';
+    },
+  },
+  {
+    id: 'open-messenger',
+    label: 'Open Crisp messenger',
+    description: 'Opens the Crisp messenger overlay.',
+    inputs: [],
+    run: async (values) => {
+      await plugin.openMessenger();
+      return 'Requested to open messenger.';
+    },
+  },
+  {
+    id: 'reset-session',
+    label: 'Reset session',
+    description: 'Resets the Crisp session and clears stored data.',
+    inputs: [],
+    run: async (values) => {
+      await plugin.reset();
+      return 'Session reset requested.';
+    },
+  },
 ];
 
 const actionSelect = document.getElementById('action-select');
