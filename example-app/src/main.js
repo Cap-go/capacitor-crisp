@@ -1,3 +1,5 @@
+import { CapacitorUpdater } from '@capgo/capacitor-updater';
+import { Capacitor } from '@capacitor/core';
 
 import './style.css';
 import { CapacitorCrisp } from '@capgo/capacitor-crisp';
@@ -203,3 +205,9 @@ runButton.addEventListener('click', async () => {
 });
 
 populateActions();
+
+if (Capacitor.isNativePlatform()) {
+  CapacitorUpdater.notifyAppReady().catch((error) => {
+    console.error('Capgo notifyAppReady failed', error);
+  });
+}
