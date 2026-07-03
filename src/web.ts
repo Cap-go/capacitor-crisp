@@ -166,6 +166,30 @@ export class CapacitorCrispWeb extends WebPlugin implements CapacitorCrispPlugin
     this.setAutoHide();
   }
 
+  async registerPushToken(_data: { token: string }): Promise<void> {
+    throw this.unimplemented('Push notifications are not available on web.');
+  }
+
+  async enableNotifications(): Promise<void> {
+    throw this.unimplemented('Push notifications are not available on web.');
+  }
+
+  async isCrispPushNotification(_data: { data: Record<string, string> }): Promise<{ isCrisp: boolean }> {
+    return { isCrisp: false };
+  }
+
+  async handlePushNotification(_data: { data: Record<string, string>; openChatbox?: boolean }): Promise<void> {
+    throw this.unimplemented('Push notifications are not available on web.');
+  }
+
+  async setShouldPromptForNotificationPermission(_data: { enabled: boolean }): Promise<void> {
+    throw this.unimplemented('Push notifications are not available on web.');
+  }
+
+  async openChatboxFromNotification(): Promise<{ opened: boolean }> {
+    return { opened: false };
+  }
+
   async getPluginVersion(): Promise<{ version: string }> {
     return { version: 'web' };
   }

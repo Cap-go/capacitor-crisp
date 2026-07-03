@@ -208,6 +208,75 @@ export interface CapacitorCrispPlugin {
   reset(): Promise<void>;
 
   /**
+   * Register the device push token (APNs on iOS, FCM on Android) with Crisp.
+   * Call this after obtaining a token from `@capacitor/push-notifications` or your
+   * native push setup. Must be called after `configure()`.
+   *
+   * @param data - Push token payload
+   * @param data.token - Device push token string
+   * @returns Promise that resolves when the token is registered
+   * @example
+   * ```typescript
+   * import { PushNotifications } from '@capacitor/push-notifications';
+   *
+   * await PushNotifications.addListener('registration', async ({ value }) => {
+   *   await CapacitorCrisp.registerPushToken({ token: value });
+   * });
+   * ```
+   */
+  registerPushToken(data: { token: string }): Promise<void>;
+
+  /**
+   * Enable Crisp push notifications on Android.
+   * Must be called after `configure()` and before opening the messenger.
+   * No-op on iOS and web.
+   *
+   * @returns Promise that resolves when notifications are enabled
+   */
+  enableNotifications(): Promise<void>;
+
+  /**
+   * Check whether a push notification payload was sent by Crisp.
+   * Useful when sharing push handling with `@capacitor/push-notifications`.
+   *
+   * @param data - Notification payload
+   * @param data.data - Key/value data from the push notification
+   * @returns Promise resolving to whether the notification is from Crisp
+   */
+  isCrispPushNotification(data: { data: Record<string, string> }): Promise<{ isCrisp: boolean }>;
+
+  /**
+   * Handle a Crisp push notification payload.
+   * On Android, opens the chatbox by default when the user taps a notification.
+   * On iOS, processes the payload through the Crisp SDK.
+   *
+   * @param data - Notification payload
+   * @param data.data - Key/value data from the push notification
+   * @param data.openChatbox - Android only. Open the chatbox after handling. Defaults to true.
+   * @returns Promise that resolves when the notification is handled
+   */
+  handlePushNotification(data: { data: Record<string, string>; openChatbox?: boolean }): Promise<void>;
+
+  /**
+   * Control whether Crisp auto-prompts for notification permission on iOS.
+   * No-op on Android and web.
+   *
+   * @param data - Permission prompt options
+   * @param data.enabled - When false, Crisp will not prompt for notification permission
+   * @returns Promise that resolves when the preference is applied
+   */
+  setShouldPromptForNotificationPermission(data: { enabled: boolean }): Promise<void>;
+
+  /**
+   * Open the Crisp chatbox from a notification tap intent on Android.
+   * Call from your main activity when handling notification open actions.
+   * No-op on iOS and web.
+   *
+   * @returns Promise resolving to whether a Crisp chatbox was opened
+   */
+  openChatboxFromNotification(): Promise<{ opened: boolean }>;
+
+  /**
    * Get the plugin version number.
    *
    * @returns Promise with version string
