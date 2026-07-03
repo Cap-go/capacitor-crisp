@@ -4,7 +4,7 @@ import pkg from './package.json';
 
 const config: CapacitorConfig = {
   appId: 'app.capgo.crisp',
-  appName: 'Crisp Example',
+  appName: '@capgo/capacitor-crisp',
   webDir: 'dist',
   plugins: {
     SplashScreen: {
