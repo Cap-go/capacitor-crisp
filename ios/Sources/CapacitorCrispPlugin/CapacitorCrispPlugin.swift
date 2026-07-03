@@ -9,6 +9,7 @@ import Crisp
 @objc(CapacitorCrispPlugin)
 public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
     private let pluginVersion: String = "8.0.38"
+    private var pushObserver: NSObjectProtocol?
     public let identifier = "CapacitorCrispPlugin"
     public let jsName = "CapacitorCrisp"
     public let pluginMethods: [CAPPluginMethod] = [
@@ -32,8 +33,22 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getPluginVersion", returnType: CAPPluginReturnPromise)
     ]
     @objc override public func load() {
-        // Called when the plugin is first constructed in the bridge
-        print("CapacitorCrispPlugin Initialized")
+        pushObserver = NotificationCenter.default.addObserver(
+            forName: .capacitorDidRegisterForRemoteNotifications,
+            object: nil,
+            queue: .main
+        ) { notification in
+            guard let deviceToken = notification.object as? Data else {
+                return
+            }
+            CrispSDK.setDeviceToken(deviceToken)
+        }
+    }
+
+    deinit {
+        if let observer = pushObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     @objc func configure(_ call: CAPPluginCall) {

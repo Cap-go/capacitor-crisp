@@ -209,27 +209,20 @@ export interface CapacitorCrispPlugin {
 
   /**
    * Register the device push token (APNs on iOS, FCM on Android) with Crisp.
-   * Call this after obtaining a token from `@capacitor/push-notifications` or your
-   * native push setup. Must be called after `configure()`.
+   * Optional fallback when you cannot use native token forwarding.
+   * On iOS, the plugin forwards APNs tokens from `@capacitor/push-notifications`
+   * automatically via native hooks.
    *
    * @param data - Push token payload
    * @param data.token - Device push token string
    * @returns Promise that resolves when the token is registered
-   * @example
-   * ```typescript
-   * import { PushNotifications } from '@capacitor/push-notifications';
-   *
-   * await PushNotifications.addListener('registration', async ({ value }) => {
-   *   await CapacitorCrisp.registerPushToken({ token: value });
-   * });
-   * ```
    */
   registerPushToken(data: { token: string }): Promise<void>;
 
   /**
    * Enable Crisp push notifications on Android.
-   * Must be called after `configure()` and before opening the messenger.
-   * No-op on iOS and web.
+   * Called automatically during `configure()` on Android.
+   * This JS method is an optional manual override. No-op on iOS and web.
    *
    * @returns Promise that resolves when notifications are enabled
    */

@@ -89,6 +89,7 @@ public class CapacitorCrispPlugin extends Plugin {
         } else {
             Crisp.configure(crispContext, websiteID);
         }
+        Crisp.enableNotifications(crispContext, true);
         call.resolve();
     }
 
@@ -233,6 +234,7 @@ public class CapacitorCrispPlugin extends Plugin {
         call.resolve();
     }
 
+    @PluginMethod
     public void registerPushToken(PluginCall call) {
         String token = call.getString("token");
         if (token == null || token.isEmpty()) {

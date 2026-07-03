@@ -79,20 +79,29 @@ Nothing special to do for the chatbox itself.
 
 Crisp push notifications require credentials in your [Crisp dashboard](https://app.crisp.chat/) under **Settings > Chatbox Settings > Push Notifications** (APNs for iOS, Firebase for Android). See the [Crisp iOS](https://docs.crisp.chat/guides/chatbox-sdks/ios-sdk/) and [Crisp Android](https://docs.crisp.chat/guides/chatbox-sdks/android-sdk/) guides for dashboard setup.
 
-#### With `@capacitor/push-notifications` (recommended)
+#### Native setup (recommended)
+
+The plugin handles timing-sensitive setup natively:
+
+- **iOS**: APNs tokens from `@capacitor/push-notifications` are forwarded to Crisp automatically.
+- **Android**: `enableNotifications()` runs automatically inside `configure()`.
+
+You still need platform setup:
 
 1. Enable the **Push Notifications** capability in Xcode (iOS).
 2. Configure Firebase (`google-services.json`) and add `firebase-messaging` to your Android app (Android).
-3. After `configure()`, call `enableNotifications()` on Android.
-4. Forward the device token to Crisp:
+3. Call `CapacitorCrisp.configure({ websiteID: 'YOUR_WEBSITE_ID' })` before opening the messenger.
+
+#### With `@capacitor/push-notifications`
 
 ```typescript
 import { CapacitorCrisp } from '@capgo/capacitor-crisp';
 import { PushNotifications } from '@capacitor/push-notifications';
 
 await CapacitorCrisp.configure({ websiteID: 'YOUR_WEBSITE_ID' });
-await CapacitorCrisp.enableNotifications();
+await PushNotifications.register();
 
+// Optional JS fallback (iOS is already handled natively)
 await PushNotifications.addListener('registration', async ({ value }) => {
   await CapacitorCrisp.registerPushToken({ token: value });
 });
@@ -109,6 +118,30 @@ On iOS, disable Crisp auto-prompting if you manage permissions yourself:
 
 ```typescript
 await CapacitorCrisp.setShouldPromptForNotificationPermission({ enabled: false });
+```
+
+#### Android: shared FirebaseMessagingService
+
+If you already have a custom `FirebaseMessagingService`, forward Crisp events with `CrispFcmHelper`:
+
+```java
+import ee.forgr.plugin.crisp.CrispFcmHelper;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        if (CrispFcmHelper.isCrispNotification(remoteMessage)) {
+            CrispFcmHelper.onMessageReceived(this, remoteMessage);
+        }
+    }
+
+    @Override
+    public void onNewToken(String token) {
+        CrispFcmHelper.onNewToken(this, token);
+    }
+}
 ```
 
 #### Android: Crisp-only notifications
@@ -355,8 +388,9 @@ registerPushToken(data: { token: string; }) => Promise<void>
 ```
 
 Register the device push token (APNs on iOS, FCM on Android) with Crisp.
-Call this after obtaining a token from `@capacitor/push-notifications` or your
-native push setup. Must be called after `configure()`.
+Optional fallback when you cannot use native token forwarding.
+On iOS, the plugin forwards APNs tokens from `@capacitor/push-notifications`
+automatically via native hooks.
 
 | Param      | Type                            | Description          |
 | ---------- | ------------------------------- | -------------------- |
@@ -372,8 +406,8 @@ enableNotifications() => Promise<void>
 ```
 
 Enable Crisp push notifications on Android.
-Must be called after `configure()` and before opening the messenger.
-No-op on iOS and web.
+Called automatically during `configure()` on Android.
+This JS method is an optional manual override. No-op on iOS and web.
 
 --------------------
 
