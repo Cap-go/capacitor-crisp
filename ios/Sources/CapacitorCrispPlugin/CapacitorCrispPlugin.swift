@@ -9,6 +9,7 @@ import Crisp
 @objc(CapacitorCrispPlugin)
 public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
     private let pluginVersion: String = "8.0.38"
+    private var pushObserver: NSObjectProtocol?
     public let identifier = "CapacitorCrispPlugin"
     public let jsName = "CapacitorCrisp"
     public let pluginMethods: [CAPPluginMethod] = [
@@ -23,11 +24,31 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "setInt", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setSegment", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "reset", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "registerPushToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "enableNotifications", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isCrispPushNotification", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "handlePushNotification", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setShouldPromptForNotificationPermission", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "openChatboxFromNotification", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getPluginVersion", returnType: CAPPluginReturnPromise)
     ]
     @objc override public func load() {
-        // Called when the plugin is first constructed in the bridge
-        print("CapacitorCrispPlugin Initialized")
+        pushObserver = NotificationCenter.default.addObserver(
+            forName: .capacitorDidRegisterForRemoteNotifications,
+            object: nil,
+            queue: .main
+        ) { notification in
+            guard let deviceToken = notification.object as? Data else {
+                return
+            }
+            CrispSDK.setDeviceToken(deviceToken)
+        }
+    }
+
+    deinit {
+        if let observer = pushObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     @objc func configure(_ call: CAPPluginCall) {
@@ -168,8 +189,87 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc func registerPushToken(_ call: CAPPluginCall) {
+        guard let token = call.getString("token"), !token.isEmpty else {
+            call.reject("token is required")
+            return
+        }
+        guard let deviceToken = self.dataFromPushToken(token) else {
+            call.reject("Invalid push token format")
+            return
+        }
+        DispatchQueue.main.async {
+            CrispSDK.setDeviceToken(deviceToken)
+            call.resolve()
+        }
+    }
+
+
+    @objc func enableNotifications(_ call: CAPPluginCall) {
+        call.resolve()
+    }
+
+    @objc func isCrispPushNotification(_ call: CAPPluginCall) {
+        let payload = self.payloadFromCall(call)
+        let isCrisp = CrispSDK._isRawCrispPushNotification(payload)
+        call.resolve(["isCrisp": isCrisp])
+    }
+
+    @objc func handlePushNotification(_ call: CAPPluginCall) {
+        let payload = self.payloadFromCall(call)
+        DispatchQueue.main.async {
+            CrispSDK._handleRawPushNotification(payload)
+            call.resolve()
+        }
+    }
+
+    @objc func setShouldPromptForNotificationPermission(_ call: CAPPluginCall) {
+        let enabled = call.getBool("enabled") ?? true
+        DispatchQueue.main.async {
+            CrispSDK.setShouldPromptForNotificationPermission(enabled)
+            call.resolve()
+        }
+    }
+
+    @objc func openChatboxFromNotification(_ call: CAPPluginCall) {
+        call.resolve(["opened": false])
+    }
+
     @objc func getPluginVersion(_ call: CAPPluginCall) {
         call.resolve(["version": self.pluginVersion])
+    }
+
+    private func dataFromPushToken(_ token: String) -> Data? {
+        let cleaned = token
+            .replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: "<", with: "")
+            .replacingOccurrences(of: ">", with: "")
+        guard !cleaned.isEmpty, cleaned.count % 2 == 0 else {
+            return nil
+        }
+
+        var data = Data(capacity: cleaned.count / 2)
+        var index = cleaned.startIndex
+        while index < cleaned.endIndex {
+            let next = cleaned.index(index, offsetBy: 2)
+            guard next <= cleaned.endIndex, let byte = UInt8(cleaned[index..<next], radix: 16) else {
+                return nil
+            }
+            data.append(byte)
+            index = next
+        }
+        return data
+    }
+
+    private func payloadFromCall(_ call: CAPPluginCall) -> [AnyHashable: Any] {
+        guard let data = call.getObject("data") else {
+            return [:]
+        }
+        var payload: [AnyHashable: Any] = [:]
+        for (key, value) in data {
+            payload[key] = value
+        }
+        return payload
     }
 
 }

@@ -16,9 +16,13 @@ import im.crisp.client.external.data.Company;
 import im.crisp.client.external.data.Employment;
 import im.crisp.client.external.data.Geolocation;
 import im.crisp.client.external.data.SessionEvent;
+import im.crisp.client.external.notification.CrispNotificationClient;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import org.json.JSONException;
 
 @CapacitorPlugin(name = "CapacitorCrisp")
@@ -85,6 +89,7 @@ public class CapacitorCrispPlugin extends Plugin {
         } else {
             Crisp.configure(crispContext, websiteID);
         }
+        Crisp.enableNotifications(crispContext, true);
         call.resolve();
     }
 
@@ -227,6 +232,69 @@ public class CapacitorCrispPlugin extends Plugin {
     public void reset(PluginCall call) {
         Crisp.resetChatSession(this.getCrispContext());
         call.resolve();
+    }
+
+    @PluginMethod
+    public void registerPushToken(PluginCall call) {
+        String token = call.getString("token");
+        if (token == null || token.isEmpty()) {
+            call.reject("token is required");
+            return;
+        }
+        CrispNotificationClient.sendTokenToCrisp(this.getCrispContext(), token);
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void enableNotifications(PluginCall call) {
+        Crisp.enableNotifications(this.getCrispContext(), true);
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void isCrispPushNotification(PluginCall call) {
+        Map<String, String> data = this.getNotificationData(call);
+        JSObject ret = new JSObject();
+        ret.put("isCrisp", CrispNotificationClient.isCrispNotification(data));
+        call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void handlePushNotification(PluginCall call) {
+        Map<String, String> data = this.getNotificationData(call);
+        boolean openChatbox = call.getBoolean("openChatbox", true);
+        CrispNotificationClient.handleNotification(this.getCrispContext(), data, openChatbox);
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void setShouldPromptForNotificationPermission(PluginCall call) {
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void openChatboxFromNotification(PluginCall call) {
+        boolean opened = false;
+        if (this.getActivity() != null) {
+            opened = CrispNotificationClient.openChatbox(this.getActivity(), this.getActivity().getIntent());
+        }
+        JSObject ret = new JSObject();
+        ret.put("opened", opened);
+        call.resolve(ret);
+    }
+
+    private Map<String, String> getNotificationData(PluginCall call) {
+        JSObject data = call.getObject("data");
+        Map<String, String> map = new HashMap<>();
+        if (data == null) {
+            return map;
+        }
+        Iterator<String> keys = data.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            map.put(key, data.optString(key));
+        }
+        return map;
     }
 
     @PluginMethod

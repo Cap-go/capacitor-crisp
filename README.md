@@ -73,7 +73,103 @@ Privacy - Photo Library Additions Usage Description (NSPhotoLibraryAddUsageDescr
 to your app's Info.plist.
 
 ### Android Integration
-Nothing special to do.
+Nothing special to do for the chatbox itself.
+
+### Push Notifications
+
+Crisp push notifications require credentials in your [Crisp dashboard](https://app.crisp.chat/) under **Settings > Chatbox Settings > Push Notifications** (APNs for iOS, Firebase for Android). See the [Crisp iOS](https://docs.crisp.chat/guides/chatbox-sdks/ios-sdk/) and [Crisp Android](https://docs.crisp.chat/guides/chatbox-sdks/android-sdk/) guides for dashboard setup.
+
+#### Native setup (recommended)
+
+The plugin handles timing-sensitive setup natively:
+
+- **iOS**: APNs tokens from `@capacitor/push-notifications` are forwarded to Crisp automatically.
+- **Android**: `enableNotifications()` runs automatically inside `configure()`.
+
+You still need platform setup:
+
+1. Enable the **Push Notifications** capability in Xcode (iOS).
+2. Configure Firebase (`google-services.json`) and add `firebase-messaging` to your Android app (Android).
+3. Call `CapacitorCrisp.configure({ websiteID: 'YOUR_WEBSITE_ID' })` before opening the messenger.
+
+#### With `@capacitor/push-notifications`
+
+```typescript
+import { CapacitorCrisp } from '@capgo/capacitor-crisp';
+import { PushNotifications } from '@capacitor/push-notifications';
+
+await CapacitorCrisp.configure({ websiteID: 'YOUR_WEBSITE_ID' });
+await PushNotifications.register();
+
+// Optional JS fallback (iOS is already handled natively)
+await PushNotifications.addListener('registration', async ({ value }) => {
+  await CapacitorCrisp.registerPushToken({ token: value });
+});
+
+await PushNotifications.addListener('pushNotificationActionPerformed', async (event) => {
+  const { isCrisp } = await CapacitorCrisp.isCrispPushNotification({ data: event.notification.data });
+  if (isCrisp) {
+    await CapacitorCrisp.handlePushNotification({ data: event.notification.data });
+  }
+});
+```
+
+On iOS, disable Crisp auto-prompting if you manage permissions yourself:
+
+```typescript
+await CapacitorCrisp.setShouldPromptForNotificationPermission({ enabled: false });
+```
+
+#### Android: shared FirebaseMessagingService
+
+If you already have a custom `FirebaseMessagingService`, forward Crisp events with `CrispFcmHelper`:
+
+```java
+import ee.forgr.plugin.crisp.CrispFcmHelper;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        if (CrispFcmHelper.isCrispNotification(remoteMessage)) {
+            CrispFcmHelper.onMessageReceived(this, remoteMessage);
+        }
+    }
+
+    @Override
+    public void onNewToken(String token) {
+        CrispFcmHelper.onNewToken(this, token);
+    }
+}
+```
+
+#### Android: Crisp-only notifications
+
+If you do not use another push provider, declare `CrispNotificationService` in your app `AndroidManifest.xml`:
+
+```xml
+<service
+  android:name="im.crisp.client.external.notification.CrispNotificationService"
+  android:exported="false">
+  <intent-filter>
+    <action android:name="com.google.firebase.MESSAGING_EVENT" />
+  </intent-filter>
+</service>
+```
+
+#### iOS: native AppDelegate (optional)
+
+You can also forward the APNs token directly in `AppDelegate.swift`:
+
+```swift
+import Crisp
+
+func application(_ application: UIApplication,
+                 didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    CrispSDK.setDeviceToken(deviceToken)
+}
+```
 
 
 ## Open chatbox
@@ -98,6 +194,12 @@ CapacitorCrisp.openMessenger()
 * [`sendMessage(...)`](#sendmessage)
 * [`setSegment(...)`](#setsegment)
 * [`reset()`](#reset)
+* [`registerPushToken(...)`](#registerpushtoken)
+* [`enableNotifications()`](#enablenotifications)
+* [`isCrispPushNotification(...)`](#iscrisppushnotification)
+* [`handlePushNotification(...)`](#handlepushnotification)
+* [`setShouldPromptForNotificationPermission(...)`](#setshouldpromptfornotificationpermission)
+* [`openChatboxFromNotification()`](#openchatboxfromnotification)
 * [`getPluginVersion()`](#getpluginversion)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -279,6 +381,103 @@ Useful when user logs out.
 --------------------
 
 
+### registerPushToken(...)
+
+```typescript
+registerPushToken(data: { token: string; }) => Promise<void>
+```
+
+Register the device push token (APNs on iOS, FCM on Android) with Crisp.
+Optional fallback when you cannot use native token forwarding.
+On iOS, the plugin forwards APNs tokens from `@capacitor/push-notifications`
+automatically via native hooks.
+
+| Param      | Type                            | Description          |
+| ---------- | ------------------------------- | -------------------- |
+| **`data`** | <code>{ token: string; }</code> | - Push token payload |
+
+--------------------
+
+
+### enableNotifications()
+
+```typescript
+enableNotifications() => Promise<void>
+```
+
+Enable Crisp push notifications on Android.
+Called automatically during `configure()` on Android.
+This JS method is an optional manual override. No-op on iOS and web.
+
+--------------------
+
+
+### isCrispPushNotification(...)
+
+```typescript
+isCrispPushNotification(data: { data: Record<string, string>; }) => Promise<{ isCrisp: boolean; }>
+```
+
+Check whether a push notification payload was sent by Crisp.
+Useful when sharing push handling with `@capacitor/push-notifications`.
+
+| Param      | Type                                                                       | Description            |
+| ---------- | -------------------------------------------------------------------------- | ---------------------- |
+| **`data`** | <code>{ data: <a href="#record">Record</a>&lt;string, string&gt;; }</code> | - Notification payload |
+
+**Returns:** <code>Promise&lt;{ isCrisp: boolean; }&gt;</code>
+
+--------------------
+
+
+### handlePushNotification(...)
+
+```typescript
+handlePushNotification(data: { data: Record<string, string>; openChatbox?: boolean; }) => Promise<void>
+```
+
+Handle a Crisp push notification payload.
+On Android, opens the chatbox by default when the user taps a notification.
+On iOS, processes the payload through the Crisp SDK.
+
+| Param      | Type                                                                                              | Description            |
+| ---------- | ------------------------------------------------------------------------------------------------- | ---------------------- |
+| **`data`** | <code>{ data: <a href="#record">Record</a>&lt;string, string&gt;; openChatbox?: boolean; }</code> | - Notification payload |
+
+--------------------
+
+
+### setShouldPromptForNotificationPermission(...)
+
+```typescript
+setShouldPromptForNotificationPermission(data: { enabled: boolean; }) => Promise<void>
+```
+
+Control whether Crisp auto-prompts for notification permission on iOS.
+No-op on Android and web.
+
+| Param      | Type                               | Description                 |
+| ---------- | ---------------------------------- | --------------------------- |
+| **`data`** | <code>{ enabled: boolean; }</code> | - Permission prompt options |
+
+--------------------
+
+
+### openChatboxFromNotification()
+
+```typescript
+openChatboxFromNotification() => Promise<{ opened: boolean; }>
+```
+
+Open the Crisp chatbox from a notification tap intent on Android.
+Call from your main activity when handling notification open actions.
+No-op on iOS and web.
+
+**Returns:** <code>Promise&lt;{ opened: boolean; }&gt;</code>
+
+--------------------
+
+
 ### getPluginVersion()
 
 ```typescript
@@ -315,5 +514,12 @@ Available colors for Crisp events.
 Used to visually categorize events in the Crisp dashboard.
 
 <code>'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink' | 'brown' | 'grey' | 'black'</code>
+
+
+#### Record
+
+Construct a type with a set of properties K of type T
+
+<code>{ [P in K]: T; }</code>
 
 </docgen-api>
