@@ -12,10 +12,12 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import im.crisp.client.external.ChatActivity;
 import im.crisp.client.external.Crisp;
+import im.crisp.client.external.EventsCallback;
 import im.crisp.client.external.data.Company;
 import im.crisp.client.external.data.Employment;
 import im.crisp.client.external.data.Geolocation;
 import im.crisp.client.external.data.SessionEvent;
+import im.crisp.client.external.data.message.Message;
 import im.crisp.client.external.notification.CrispNotificationClient;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,6 +35,63 @@ public class CapacitorCrispPlugin extends Plugin {
     protected static final int OPEN_MESSENGER_CODE = 12345; // Unique request code
 
     private Locale configuredLocale;
+
+    private final EventsCallback eventsCallback = new EventsCallback() {
+        @Override
+        public void onSessionLoaded(String sessionId) {
+            JSObject ret = new JSObject();
+            ret.put("sessionId", sessionId);
+            notifyCrispEvent("sessionLoaded", ret);
+        }
+
+        @Override
+        public void onChatOpened() {
+            notifyCrispEvent("chatOpened", new JSObject());
+        }
+
+        @Override
+        public void onChatClosed() {
+            notifyCrispEvent("chatClosed", new JSObject());
+        }
+
+        @Override
+        public void onMessageSent(Message message) {
+            notifyCrispEvent("messageSent", getMessageEvent(message));
+        }
+
+        @Override
+        public void onMessageReceived(Message message) {
+            notifyCrispEvent("messageReceived", getMessageEvent(message));
+        }
+    };
+
+    @Override
+    public void load() {
+        super.load();
+        Crisp.addCallback(this.eventsCallback);
+    }
+
+    @Override
+    protected void handleOnDestroy() {
+        Crisp.removeCallback(this.eventsCallback);
+        super.handleOnDestroy();
+    }
+
+    private JSObject getMessageEvent(Message message) {
+        JSObject ret = new JSObject();
+        if (message != null) {
+            ret.put("isMe", message.isMe());
+        }
+        return ret;
+    }
+
+    private void notifyCrispEvent(String eventName, JSObject data) {
+        if (this.getActivity() != null) {
+            this.getActivity().runOnUiThread(() -> notifyListeners(eventName, data));
+            return;
+        }
+        notifyListeners(eventName, data);
+    }
 
     private Context getCrispContext() {
         Context activity = this.getActivity();

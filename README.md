@@ -194,6 +194,12 @@ CapacitorCrisp.openMessenger()
 * [`sendMessage(...)`](#sendmessage)
 * [`setSegment(...)`](#setsegment)
 * [`reset()`](#reset)
+* [`addListener('messageReceived', ...)`](#addlistenermessagereceived-)
+* [`addListener('messageSent', ...)`](#addlistenermessagesent-)
+* [`addListener('sessionLoaded', ...)`](#addlistenersessionloaded-)
+* [`addListener('chatOpened', ...)`](#addlistenerchatopened-)
+* [`addListener('chatClosed', ...)`](#addlistenerchatclosed-)
+* [`removeAllListeners()`](#removealllisteners)
 * [`registerPushToken(...)`](#registerpushtoken)
 * [`enableNotifications()`](#enablenotifications)
 * [`isCrispPushNotification(...)`](#iscrisppushnotification)
@@ -381,6 +387,107 @@ Useful when user logs out.
 --------------------
 
 
+### addListener('messageReceived', ...)
+
+```typescript
+addListener(eventName: 'messageReceived', listenerFunc: (event: CrispMessageEvent) => void) => Promise<PluginListenerHandle>
+```
+
+Listen for incoming Crisp messages.
+
+| Param              | Type                                                                                | Description                     |
+| ------------------ | ----------------------------------------------------------------------------------- | ------------------------------- |
+| **`eventName`**    | <code>'messageReceived'</code>                                                      | - `messageReceived`             |
+| **`listenerFunc`** | <code>(event: <a href="#crispmessageevent">CrispMessageEvent</a>) =&gt; void</code> | - Called with message metadata. |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
+### addListener('messageSent', ...)
+
+```typescript
+addListener(eventName: 'messageSent', listenerFunc: (event: CrispMessageEvent) => void) => Promise<PluginListenerHandle>
+```
+
+Listen for messages sent through Crisp.
+
+| Param              | Type                                                                                | Description                     |
+| ------------------ | ----------------------------------------------------------------------------------- | ------------------------------- |
+| **`eventName`**    | <code>'messageSent'</code>                                                          | - `messageSent`                 |
+| **`listenerFunc`** | <code>(event: <a href="#crispmessageevent">CrispMessageEvent</a>) =&gt; void</code> | - Called with message metadata. |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
+### addListener('sessionLoaded', ...)
+
+```typescript
+addListener(eventName: 'sessionLoaded', listenerFunc: (event: CrispSessionLoadedEvent) => void) => Promise<PluginListenerHandle>
+```
+
+Listen for the native Crisp session loading.
+
+| Param              | Type                                                                                            | Description                          |
+| ------------------ | ----------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **`eventName`**    | <code>'sessionLoaded'</code>                                                                    | - `sessionLoaded`                    |
+| **`listenerFunc`** | <code>(event: <a href="#crispsessionloadedevent">CrispSessionLoadedEvent</a>) =&gt; void</code> | - Called with the native session ID. |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
+### addListener('chatOpened', ...)
+
+```typescript
+addListener(eventName: 'chatOpened', listenerFunc: () => void) => Promise<PluginListenerHandle>
+```
+
+Listen for the Crisp chatbox opening.
+
+| Param              | Type                       | Description                      |
+| ------------------ | -------------------------- | -------------------------------- |
+| **`eventName`**    | <code>'chatOpened'</code>  | - `chatOpened`                   |
+| **`listenerFunc`** | <code>() =&gt; void</code> | - Called when the chatbox opens. |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
+### addListener('chatClosed', ...)
+
+```typescript
+addListener(eventName: 'chatClosed', listenerFunc: () => void) => Promise<PluginListenerHandle>
+```
+
+Listen for the Crisp chatbox closing.
+
+| Param              | Type                       | Description                       |
+| ------------------ | -------------------------- | --------------------------------- |
+| **`eventName`**    | <code>'chatClosed'</code>  | - `chatClosed`                    |
+| **`listenerFunc`** | <code>() =&gt; void</code> | - Called when the chatbox closes. |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
+### removeAllListeners()
+
+```typescript
+removeAllListeners() => Promise<void>
+```
+
+Remove all registered listeners for this plugin.
+
+--------------------
+
+
 ### registerPushToken(...)
 
 ```typescript
@@ -503,6 +610,31 @@ Configuration for initializing Crisp.
 | **`websiteID`** | <code>string</code> | Your Crisp website ID from dashboard.                                                                                                                                  |
 | **`locale`**    | <code>string</code> | Optional - Locale to force in the Crisp chat widget (ISO 639-1), eg. `en`, `fr`, `es`. Web + Android: overrides the runtime locale. iOS follows the device/app locale. |
 | **`tokenID`**   | <code>string</code> | Optional - Unique token identifier for the user session continuity.                                                                                                    |
+
+
+#### PluginListenerHandle
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
+
+
+#### CrispMessageEvent
+
+Payload emitted when a Crisp message event is received from the native SDK.
+
+| Prop       | Type                 | Description                                       |
+| ---------- | -------------------- | ------------------------------------------------- |
+| **`isMe`** | <code>boolean</code> | Whether the message was sent by the current user. |
+
+
+#### CrispSessionLoadedEvent
+
+Payload emitted when the Crisp session is loaded.
+
+| Prop            | Type                | Description                      |
+| --------------- | ------------------- | -------------------------------- |
+| **`sessionId`** | <code>string</code> | Native Crisp session identifier. |
 
 
 ### Type Aliases

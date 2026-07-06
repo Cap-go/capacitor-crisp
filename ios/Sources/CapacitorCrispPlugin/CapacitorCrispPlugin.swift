@@ -10,6 +10,7 @@ import Crisp
 public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
     private let pluginVersion: String = "8.1.0"
     private var pushObserver: NSObjectProtocol?
+    private var eventCallbackTokens: [CallbackToken] = []
     public let identifier = "CapacitorCrispPlugin"
     public let jsName = "CapacitorCrisp"
     public let pluginMethods: [CAPPluginMethod] = [
@@ -43,9 +44,13 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
             }
             CrispSDK.setDeviceToken(deviceToken)
         }
+        registerEventCallbacks()
     }
 
     deinit {
+        for token in eventCallbackTokens {
+            CrispSDK.removeCallback(token: token)
+        }
         if let observer = pushObserver {
             NotificationCenter.default.removeObserver(observer)
         }
@@ -204,7 +209,6 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
-
     @objc func enableNotifications(_ call: CAPPluginCall) {
         call.resolve()
     }
@@ -272,4 +276,33 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
         return payload
     }
 
+}
+
+private extension CapacitorCrispPlugin {
+    func registerEventCallbacks() {
+        guard eventCallbackTokens.isEmpty else {
+            return
+        }
+        eventCallbackTokens = [
+            CrispSDK.addCallback(.messageReceived { [weak self] message in
+                self?.notifyListeners("messageReceived", data: self?.messagePayload(message) ?? [:])
+            }),
+            CrispSDK.addCallback(.messageSent { [weak self] message in
+                self?.notifyListeners("messageSent", data: self?.messagePayload(message) ?? [:])
+            }),
+            CrispSDK.addCallback(.sessionLoaded { [weak self] sessionId in
+                self?.notifyListeners("sessionLoaded", data: ["sessionId": sessionId])
+            }),
+            CrispSDK.addCallback(.chatOpened { [weak self] in
+                self?.notifyListeners("chatOpened", data: [:])
+            }),
+            CrispSDK.addCallback(.chatClosed { [weak self] in
+                self?.notifyListeners("chatClosed", data: [:])
+            })
+        ]
+    }
+
+    func messagePayload(_ message: Message) -> [String: Any] {
+        return ["isMe": message.isMe]
+    }
 }
