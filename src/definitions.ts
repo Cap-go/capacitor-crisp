@@ -1,3 +1,5 @@
+import type { PluginListenerHandle } from '@capacitor/core';
+
 /**
  * Available colors for Crisp events.
  * Used to visually categorize events in the Crisp dashboard.
@@ -31,6 +33,26 @@ export interface ConfigureOptions {
    * Optional - Unique token identifier for the user session continuity.
    */
   tokenID?: string;
+}
+
+/**
+ * Payload emitted when a Crisp message event is received from the native SDK.
+ */
+export interface CrispMessageEvent {
+  /**
+   * Whether the message was sent by the current user.
+   */
+  isMe?: boolean;
+}
+
+/**
+ * Payload emitted when the Crisp session is loaded.
+ */
+export interface CrispSessionLoadedEvent {
+  /**
+   * Native Crisp session identifier.
+   */
+  sessionId?: string;
 }
 
 /**
@@ -206,6 +228,67 @@ export interface CapacitorCrispPlugin {
    * @returns Promise that resolves when session is reset
    */
   reset(): Promise<void>;
+
+  /**
+   * Listen for incoming Crisp messages.
+   *
+   * @param eventName - `messageReceived`
+   * @param listenerFunc - Called with message metadata.
+   * @returns Promise resolving with a listener handle.
+   */
+  addListener(
+    eventName: 'messageReceived',
+    listenerFunc: (event: CrispMessageEvent) => void,
+  ): Promise<PluginListenerHandle>;
+
+  /**
+   * Listen for messages sent through Crisp.
+   *
+   * @param eventName - `messageSent`
+   * @param listenerFunc - Called with message metadata.
+   * @returns Promise resolving with a listener handle.
+   */
+  addListener(
+    eventName: 'messageSent',
+    listenerFunc: (event: CrispMessageEvent) => void,
+  ): Promise<PluginListenerHandle>;
+
+  /**
+   * Listen for the native Crisp session loading.
+   *
+   * @param eventName - `sessionLoaded`
+   * @param listenerFunc - Called with the native session ID.
+   * @returns Promise resolving with a listener handle.
+   */
+  addListener(
+    eventName: 'sessionLoaded',
+    listenerFunc: (event: CrispSessionLoadedEvent) => void,
+  ): Promise<PluginListenerHandle>;
+
+  /**
+   * Listen for the Crisp chatbox opening.
+   *
+   * @param eventName - `chatOpened`
+   * @param listenerFunc - Called when the chatbox opens.
+   * @returns Promise resolving with a listener handle.
+   */
+  addListener(eventName: 'chatOpened', listenerFunc: () => void): Promise<PluginListenerHandle>;
+
+  /**
+   * Listen for the Crisp chatbox closing.
+   *
+   * @param eventName - `chatClosed`
+   * @param listenerFunc - Called when the chatbox closes.
+   * @returns Promise resolving with a listener handle.
+   */
+  addListener(eventName: 'chatClosed', listenerFunc: () => void): Promise<PluginListenerHandle>;
+
+  /**
+   * Remove all registered listeners for this plugin.
+   *
+   * @returns Promise resolving when listeners are removed.
+   */
+  removeAllListeners(): Promise<void>;
 
   /**
    * Register the device push token (APNs on iOS, FCM on Android) with Crisp.
