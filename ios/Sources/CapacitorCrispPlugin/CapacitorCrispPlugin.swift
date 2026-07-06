@@ -8,7 +8,7 @@ import Crisp
  */
 @objc(CapacitorCrispPlugin)
 public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
-    private let pluginVersion: String = "8.1.0"
+    private let pluginVersion: String = "8.1.1"
     private var pushObserver: NSObjectProtocol?
     private var eventCallbackTokens: [CallbackToken] = []
     public let identifier = "CapacitorCrispPlugin"
