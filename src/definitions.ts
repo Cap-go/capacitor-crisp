@@ -36,13 +36,18 @@ export interface ConfigureOptions {
 }
 
 /**
- * Payload emitted when a Crisp message event is received from the native SDK.
+ * Payload emitted when a Crisp message event is received from the native SDK
+ * or from a forwarded Crisp push notification.
  */
 export interface CrispMessageEvent {
   /**
    * Whether the message was sent by the current user.
    */
   isMe?: boolean;
+  /**
+   * True when the event was emitted from a forwarded Crisp push notification.
+   */
+  fromPushNotification?: boolean;
 }
 
 /**
@@ -325,6 +330,8 @@ export interface CapacitorCrispPlugin {
    * Handle a Crisp push notification payload.
    * On Android, opens the chatbox by default when the user taps a notification.
    * On iOS, processes the payload through the Crisp SDK.
+   * Emits `messageReceived` with `fromPushNotification: true` for Crisp payloads,
+   * which lets apps update unread badges when the chatbox is closed.
    *
    * @param data - Notification payload
    * @param data.data - Key/value data from the push notification

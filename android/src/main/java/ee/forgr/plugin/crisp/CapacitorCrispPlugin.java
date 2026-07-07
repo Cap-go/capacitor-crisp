@@ -85,6 +85,13 @@ public class CapacitorCrispPlugin extends Plugin {
         return ret;
     }
 
+    private JSObject getPushMessageEvent() {
+        JSObject ret = new JSObject();
+        ret.put("isMe", false);
+        ret.put("fromPushNotification", true);
+        return ret;
+    }
+
     private void notifyCrispEvent(String eventName, JSObject data) {
         if (this.getActivity() != null) {
             this.getActivity().runOnUiThread(() -> notifyListeners(eventName, data));
@@ -322,7 +329,11 @@ public class CapacitorCrispPlugin extends Plugin {
     public void handlePushNotification(PluginCall call) {
         Map<String, String> data = this.getNotificationData(call);
         boolean openChatbox = call.getBoolean("openChatbox", true);
+        boolean isCrisp = CrispNotificationClient.isCrispNotification(data);
         CrispNotificationClient.handleNotification(this.getCrispContext(), data, openChatbox);
+        if (isCrisp && !openChatbox) {
+            notifyCrispEvent("messageReceived", getPushMessageEvent());
+        }
         call.resolve();
     }
 
