@@ -106,6 +106,14 @@ await PushNotifications.addListener('registration', async ({ value }) => {
   await CapacitorCrisp.registerPushToken({ token: value });
 });
 
+// Forward foreground Crisp pushes so messageReceived can update your unread badge.
+await PushNotifications.addListener('pushNotificationReceived', async (notification) => {
+  const { isCrisp } = await CapacitorCrisp.isCrispPushNotification({ data: notification.data });
+  if (isCrisp) {
+    await CapacitorCrisp.handlePushNotification({ data: notification.data, openChatbox: false });
+  }
+});
+
 await PushNotifications.addListener('pushNotificationActionPerformed', async (event) => {
   const { isCrisp } = await CapacitorCrisp.isCrispPushNotification({ data: event.notification.data });
   if (isCrisp) {
@@ -546,6 +554,8 @@ handlePushNotification(data: { data: Record<string, string>; openChatbox?: boole
 Handle a Crisp push notification payload.
 On Android, opens the chatbox by default when the user taps a notification.
 On iOS, processes the payload through the Crisp SDK.
+Emits `messageReceived` with `fromPushNotification: true` for Crisp payloads,
+which lets apps update unread badges when the chatbox is closed.
 
 | Param      | Type                                                                                              | Description            |
 | ---------- | ------------------------------------------------------------------------------------------------- | ---------------------- |
@@ -621,11 +631,13 @@ Configuration for initializing Crisp.
 
 #### CrispMessageEvent
 
-Payload emitted when a Crisp message event is received from the native SDK.
+Payload emitted when a Crisp message event is received from the native SDK
+or from a forwarded Crisp push notification.
 
-| Prop       | Type                 | Description                                       |
-| ---------- | -------------------- | ------------------------------------------------- |
-| **`isMe`** | <code>boolean</code> | Whether the message was sent by the current user. |
+| Prop                       | Type                 | Description                                                               |
+| -------------------------- | -------------------- | ------------------------------------------------------------------------- |
+| **`isMe`**                 | <code>boolean</code> | Whether the message was sent by the current user.                         |
+| **`fromPushNotification`** | <code>boolean</code> | True when the event was emitted from a forwarded Crisp push notification. |
 
 
 #### CrispSessionLoadedEvent

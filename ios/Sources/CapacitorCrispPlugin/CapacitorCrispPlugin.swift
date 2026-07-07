@@ -221,8 +221,12 @@ public class CapacitorCrispPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func handlePushNotification(_ call: CAPPluginCall) {
         let payload = self.payloadFromCall(call)
+        let isCrisp = CrispSDK._isRawCrispPushNotification(payload)
         DispatchQueue.main.async {
             CrispSDK._handleRawPushNotification(payload)
+            if isCrisp {
+                self.notifyListeners("messageReceived", data: ["isMe": false, "fromPushNotification": true])
+            }
             call.resolve()
         }
     }
