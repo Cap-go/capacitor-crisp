@@ -103,12 +103,22 @@ export class CapacitorCrispWeb extends WebPlugin implements CapacitorCrispPlugin
     this.reset();
   }
 
-  async setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: string }): Promise<void> {
+  async setUser(data: {
+    nickname?: string;
+    phone?: string;
+    email?: string;
+    signature?: string;
+    avatar?: string;
+  }): Promise<void> {
     if (data.nickname) {
       window.$crisp.push(['set', 'user:nickname', [data.nickname]]);
     }
     if (data.email) {
-      window.$crisp.push(['set', 'user:email', [data.email]]);
+      if (data.signature) {
+        window.$crisp.push(['set', 'user:email', [data.email, data.signature]]);
+      } else {
+        window.$crisp.push(['set', 'user:email', [data.email]]);
+      }
     }
     if (data.phone) {
       window.$crisp.push(['set', 'user:phone', [data.phone]]);

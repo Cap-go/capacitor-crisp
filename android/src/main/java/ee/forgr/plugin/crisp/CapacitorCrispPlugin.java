@@ -186,7 +186,12 @@ public class CapacitorCrispPlugin extends Plugin {
     public void setUser(PluginCall call) {
         if (call.hasOption("email")) {
             String email = call.getString("email");
-            Crisp.setUserEmail(email);
+            String signature = call.getString("signature");
+            if (signature != null && !signature.isEmpty()) {
+                Crisp.setUserEmail(email, signature);
+            } else {
+                Crisp.setUserEmail(email);
+            }
         }
         if (call.hasOption("nickname")) {
             String nickname = call.getString("nickname");
