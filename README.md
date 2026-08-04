@@ -273,15 +273,15 @@ Used to identify and restore previous conversations.
 ### setUser(...)
 
 ```typescript
-setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: string; }) => Promise<void>
+setUser(data: { nickname?: string; phone?: string; email?: string; signature?: string; avatar?: string; }) => Promise<void>
 ```
 
 Set user information for the current session.
 Updates the user profile visible to support agents.
 
-| Param      | Type                                                                                 | Description               |
-| ---------- | ------------------------------------------------------------------------------------ | ------------------------- |
-| **`data`** | <code>{ nickname?: string; phone?: string; email?: string; avatar?: string; }</code> | - User information object |
+| Param      | Type                                                                                                     | Description               |
+| ---------- | -------------------------------------------------------------------------------------------------------- | ------------------------- |
+| **`data`** | <code>{ nickname?: string; phone?: string; email?: string; signature?: string; avatar?: string; }</code> | - User information object |
 
 --------------------
 

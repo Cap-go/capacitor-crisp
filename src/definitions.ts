@@ -107,6 +107,9 @@ export interface CapacitorCrispPlugin {
    * @param data.nickname - User's display name
    * @param data.phone - User's phone number
    * @param data.email - User's email address
+   * @param data.signature - Optional HMAC-SHA256 hex digest of the email for
+   *   [identity verification](https://docs.crisp.chat/guides/chatbox-sdks/web-sdk/identity-verification/).
+   *   Generate this on your backend with your Crisp secret key; never in the client.
    * @param data.avatar - URL to user's avatar image
    * @returns Promise that resolves when user info is updated
    * @example
@@ -114,11 +117,18 @@ export interface CapacitorCrispPlugin {
    * await CrispPlugin.setUser({
    *   nickname: 'John Doe',
    *   email: 'john@example.com',
+   *   signature: 'backend-generated-hmac-sha256-hex',
    *   phone: '+1234567890'
    * });
    * ```
    */
-  setUser(data: { nickname?: string; phone?: string; email?: string; avatar?: string }): Promise<void>;
+  setUser(data: {
+    nickname?: string;
+    phone?: string;
+    email?: string;
+    signature?: string;
+    avatar?: string;
+  }): Promise<void>;
 
   /**
    * Push a custom event to Crisp.
