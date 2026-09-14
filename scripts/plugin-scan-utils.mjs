@@ -15,20 +15,14 @@ export const SKIP_DIRS = new Set([
 ]);
 
 export function readText(p) {
-  try {
-    return fs.readFileSync(p, "utf8");
-  } catch {
+  if (!fs.existsSync(p)) {
     return "";
   }
+  return fs.readFileSync(p, "utf8");
 }
 
 export function exists(p) {
-  try {
-    fs.accessSync(p);
-    return true;
-  } catch {
-    return false;
-  }
+  return fs.existsSync(p);
 }
 
 export function parsePluginDirArg(argv) {
@@ -53,7 +47,10 @@ export function walkFiles(rootDir, exts, options = {}) {
     let entries;
     try {
       entries = fs.readdirSync(dir, { withFileTypes: true });
-    } catch {
+    } catch (error) {
+      if (process.env.DEBUG_PLUGIN_SCAN === "1") {
+        console.debug(`[plugin-scan] skip unreadable dir ${dir}: ${error?.message || error}`);
+      }
       continue;
     }
     for (const e of entries) {

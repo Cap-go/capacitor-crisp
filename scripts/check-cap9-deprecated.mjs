@@ -18,12 +18,12 @@ import {
   walkFiles,
 } from "./plugin-scan-utils.mjs";
 
-/** @type {{ id: string; exts: string[]; re: RegExp; hint: string }[]} */
+/** @type {{ id: string; exts: string[]; needles?: string[]; re?: RegExp; match?: (line: string) => boolean; hint: string }[]} */
 const RULES = [
   {
     id: "plugin-call-hasOption",
     exts: [".java", ".kt", ".swift"],
-    re: /\.hasOption\s*\(/,
+    needles: [".hasOption("],
     hint: "Use typed accessors (getString, getInt, etc.) instead of hasOption.",
   },
   {
@@ -35,76 +35,86 @@ const RULES = [
   {
     id: "plugin-call-isSaved",
     exts: [".java", ".kt"],
-    re: /\b(?:call|[A-Za-z_][A-Za-z0-9_]*Call)\.isSaved\s*\(\s*\)/,
+    needles: [".isSaved("],
     hint: "Use isKeptAlive() instead of isSaved().",
   },
   {
     id: "plugin-call-isReleased",
     exts: [".java", ".kt"],
-    re: /\b(?:call|[A-Za-z_][A-Za-z0-9_]*Call)\.isReleased\s*\(\s*\)/,
+    needles: [".isReleased("],
     hint: "isReleased() was removed; released calls are managed by the bridge.",
   },
   {
     id: "plugin-getConfigValue",
     exts: [".java", ".kt", ".swift"],
-    re: /\.getConfigValue\s*\(/,
+    needles: [".getConfigValue("],
     hint: "Use getConfig() and typed PluginConfig accessors.",
   },
   {
     id: "android-native-plugin-annotation",
     exts: [".java", ".kt"],
-    re: /@NativePlugin\b/,
+    needles: ["@NativePlugin"],
     hint: "Use @CapacitorPlugin instead of @NativePlugin.",
   },
   {
     id: "android-saveCall",
     exts: [".java", ".kt"],
-    re: /\bsaveCall\s*\(/,
+    match: (line) => line.includes("saveCall(") && !line.includes("Bridge.saveCall("),
     hint: "Use Bridge.saveCall(PluginCall) or PluginCall.setKeepAlive(true).",
   },
   {
     id: "android-getSavedCall-no-arg",
     exts: [".java", ".kt"],
-    re: /\bgetSavedCall\s*\(\s*\)/,
+    needles: ["getSavedCall()"],
     hint: "Use Bridge.getSavedCall(String) with a callback id.",
   },
   {
     id: "android-freeSavedCall",
     exts: [".java", ".kt"],
-    re: /\bfreeSavedCall\s*\(/,
+    needles: ["freeSavedCall("],
     hint: "Use PluginCall.release(Bridge) instead of freeSavedCall().",
   },
   {
     id: "android-https-interceptor-start",
     exts: [".java", ".kt"],
-    re: /\bCAPACITOR_HTTPS_INTERCEPTOR_START\b/,
+    needles: ["CAPACITOR_HTTPS_INTERCEPTOR_START"],
     hint: "Use CAPACITOR_HTTP_INTERCEPTOR_START instead.",
   },
   {
     id: "ios-cap-bridge-class",
     exts: [".swift"],
-    re: /\bCAPBridge\./,
+    needles: ["CAPBridge."],
     hint: "CAPBridge was removed; use Cap 9 replacements (ApplicationDelegateProxy, Notification.Name, etc.).",
   },
   {
     id: "ios-cap-notifications-enum",
     exts: [".swift"],
-    re: /\bCAPNotifications\b/,
+    needles: ["CAPNotifications"],
     hint: "Use Notification.Name.capacitor* constants instead of CAPNotifications.",
   },
   {
     id: "ios-https-interceptor-start",
     exts: [".swift"],
-    re: /\bhttpsInterceptorStartIdentifier\b/,
+    needles: ["httpsInterceptorStartIdentifier"],
     hint: "Use httpInterceptorStartIdentifier instead.",
   },
   {
     id: "ios-getPluginConfigValue",
     exts: [".swift"],
-    re: /\.getPluginConfigValue\s*\(/,
+    needles: [".getPluginConfigValue("],
     hint: "Use getPluginConfig(_:) instead.",
   },
 ];
+
+function lineMatchesRule(line, rule) {
+  if (rule.match?.(line)) {
+    return true;
+  }
+  if (rule.needles?.some((needle) => line.includes(needle))) {
+    return true;
+  }
+  return Boolean(rule.re?.test(line));
+}
 
 function collectScanRoots(pluginDir, pkg) {
   const cap = typeof pkg.capacitor === "object" && pkg.capacitor ? pkg.capacitor : {};
@@ -129,7 +139,7 @@ function scanFile(filePath, rulesForExt) {
     const line = lines[i];
     if (lineLooksCommentOnly(line)) continue;
     for (const rule of rulesForExt) {
-      if (rule.re.test(line)) {
+      if (lineMatchesRule(line, rule)) {
         hits.push({ rule, line: i + 1, text: line.trim() });
       }
     }
