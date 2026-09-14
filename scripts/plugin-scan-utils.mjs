@@ -46,6 +46,38 @@ export function parsePluginDirArg(_argv) {
   return { dir: path.resolve(process.cwd()) };
 }
 
+function readDirEntries(dir) {
+  try {
+    return fs.readdirSync(dir, { withFileTypes: true });
+  } catch (error) {
+    if (process.env.DEBUG_PLUGIN_SCAN === "1") {
+      console.debug(`[plugin-scan] skip unreadable dir ${dir}: ${error?.message || error}`);
+    }
+    return [];
+  }
+}
+
+function pushMatchingFile(fullPath, fileName, exts, skipFile, out) {
+  if (skipFile(fullPath)) return;
+  for (const ext of exts) {
+    if (fileName.endsWith(ext)) {
+      out.push(fullPath);
+      return;
+    }
+  }
+}
+
+function visitEntry(entry, dir, trustedRoot, skipDirs, exts, skipFile, stack, out) {
+  const full = path.join(dir, entry.name);
+  if (!isInsideRoot(trustedRoot, full)) return;
+  if (entry.isDirectory()) {
+    if (!skipDirs.has(entry.name)) stack.push(full);
+    return;
+  }
+  if (!entry.isFile()) return;
+  pushMatchingFile(full, entry.name, exts, skipFile, out);
+}
+
 export function walkFiles(rootDir, exts, options = {}) {
   const skipDirs = options.skipDirs ?? SKIP_DIRS;
   const skipFile = options.skipFile ?? (() => false);
@@ -57,37 +89,12 @@ export function walkFiles(rootDir, exts, options = {}) {
   const stack = [trustedRoot];
   while (stack.length) {
     const dir = stack.pop();
-    if (!isInsideRoot(trustedRoot, dir)) {
-      continue;
-    }
-    let entries;
-    try {
-      entries = fs.readdirSync(dir, { withFileTypes: true });
-    } catch (error) {
-      if (process.env.DEBUG_PLUGIN_SCAN === "1") {
-        console.debug(`[plugin-scan] skip unreadable dir ${dir}: ${error?.message || error}`);
-      }
-      continue;
-    }
-    for (const entry of entries) {
-      const full = path.join(dir, entry.name);
-      if (!isInsideRoot(trustedRoot, full)) continue;
-      if (entry.isDirectory()) {
-        if (skipDirs.has(entry.name)) continue;
-        stack.push(full);
-        continue;
-      }
-      if (!entry.isFile()) continue;
-      if (skipFile(full)) continue;
-      for (const ext of exts) {
-        if (entry.name.endsWith(ext)) {
-          out.push(full);
-          break;
-        }
-      }
+    if (!isInsideRoot(trustedRoot, dir)) continue;
+    for (const entry of readDirEntries(dir)) {
+      visitEntry(entry, dir, trustedRoot, skipDirs, exts, skipFile, stack, out);
     }
   }
-  return [...new Set(out)].sort();
+  return [...new Set(out)].sort((a, b) => a.localeCompare(b));
 }
 
 export function lineLooksCommentOnly(line) {
