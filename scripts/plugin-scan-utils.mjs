@@ -62,44 +62,24 @@ export function walkFiles(rootDir, exts, options = {}) {
   const skipDirs = options.skipDirs ?? SKIP_DIRS;
   const skipFile = options.skipFile ?? (() => false);
   const trustedRoot = path.resolve(rootDir);
+  if (!fs.existsSync(trustedRoot)) {
+    return [];
+  }
+  const ignore = [...skipDirs].map((name) => `**/${name}/**`);
   const out = [];
-  const stack = [trustedRoot];
-  while (stack.length) {
-    const dir = stack.pop();
-    if (!isInsideRoot(trustedRoot, dir)) {
-      continue;
-    }
-    let entries;
-    try {
-      entries = fs.readdirSync(dir, { withFileTypes: true });
-    } catch (error) {
-      if (process.env.DEBUG_PLUGIN_SCAN === "1") {
-        console.debug(`[plugin-scan] skip unreadable dir ${dir}: ${error?.message || error}`);
-      }
-      continue;
-    }
-    for (const e of entries) {
-      if (e.isDirectory()) {
-        if (skipDirs.has(e.name)) continue;
-        const nextDir = path.join(dir, e.name);
-        if (!isInsideRoot(trustedRoot, nextDir)) continue;
-        stack.push(nextDir);
-        continue;
-      }
-      if (!e.isFile()) continue;
-      const full = path.join(dir, e.name);
+  for (const ext of exts) {
+    const matches = fs.globSync(`**/*${ext}`, {
+      cwd: trustedRoot,
+      exclude: ignore,
+    });
+    for (const rel of matches) {
+      const full = path.join(trustedRoot, rel);
       if (!isInsideRoot(trustedRoot, full)) continue;
       if (skipFile(full)) continue;
-      for (const ext of exts) {
-        if (e.name.endsWith(ext)) {
-          out.push(full);
-          break;
-        }
-      }
+      out.push(full);
     }
   }
-  out.sort();
-  return out;
+  return [...new Set(out)].sort();
 }
 
 export function lineLooksCommentOnly(line) {
