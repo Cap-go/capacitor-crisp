@@ -14,36 +14,61 @@ export const SKIP_DIRS = new Set([
   "example-app",
 ]);
 
-export function readText(p) {
+export function isInsideRoot(root, target) {
+  const resolvedRoot = path.resolve(root);
+  const resolvedTarget = path.resolve(target);
+  const rel = path.relative(resolvedRoot, resolvedTarget);
+  return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel));
+}
+
+export function readText(p, trustedRoot) {
+  if (trustedRoot && !isInsideRoot(trustedRoot, p)) {
+    return "";
+  }
   if (!fs.existsSync(p)) {
     return "";
   }
   return fs.readFileSync(p, "utf8");
 }
 
-export function exists(p) {
+export function exists(p, trustedRoot) {
+  if (trustedRoot && !isInsideRoot(trustedRoot, p)) {
+    return false;
+  }
   return fs.existsSync(p);
 }
 
 export function parsePluginDirArg(argv) {
-  const out = { dir: process.cwd() };
+  const cwd = path.resolve(process.cwd());
+  let dir = cwd;
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--dir" || a === "--pluginDir") {
-      out.dir = path.resolve(argv[++i] || ".");
-      continue;
+      dir = path.resolve(cwd, argv[++i] || ".");
+      break;
     }
   }
-  return out;
+  if (!isInsideRoot(cwd, dir)) {
+    return {
+      error: "--dir must resolve inside the current working directory",
+      exitCode: 2,
+      dir: cwd,
+    };
+  }
+  return { dir };
 }
 
 export function walkFiles(rootDir, exts, options = {}) {
   const skipDirs = options.skipDirs ?? SKIP_DIRS;
   const skipFile = options.skipFile ?? (() => false);
+  const trustedRoot = path.resolve(rootDir);
   const out = [];
-  const stack = [rootDir];
+  const stack = [trustedRoot];
   while (stack.length) {
     const dir = stack.pop();
+    if (!isInsideRoot(trustedRoot, dir)) {
+      continue;
+    }
     let entries;
     try {
       entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -56,11 +81,14 @@ export function walkFiles(rootDir, exts, options = {}) {
     for (const e of entries) {
       if (e.isDirectory()) {
         if (skipDirs.has(e.name)) continue;
-        stack.push(path.join(dir, e.name));
+        const nextDir = path.join(dir, e.name);
+        if (!isInsideRoot(trustedRoot, nextDir)) continue;
+        stack.push(nextDir);
         continue;
       }
       if (!e.isFile()) continue;
       const full = path.join(dir, e.name);
+      if (!isInsideRoot(trustedRoot, full)) continue;
       if (skipFile(full)) continue;
       for (const ext of exts) {
         if (e.name.endsWith(ext)) {
@@ -80,12 +108,13 @@ export function lineLooksCommentOnly(line) {
 }
 
 export function loadPluginPackage(pluginDir) {
-  const pkgPath = path.join(pluginDir, "package.json");
-  if (!exists(pkgPath)) {
-    return { error: `missing package.json in ${pluginDir}`, exitCode: 2 };
+  const trustedRoot = path.resolve(pluginDir);
+  const pkgPath = path.join(trustedRoot, "package.json");
+  if (!exists(pkgPath, trustedRoot)) {
+    return { error: `missing package.json in ${trustedRoot}`, exitCode: 2 };
   }
   try {
-    return { pkg: JSON.parse(readText(pkgPath)), pkgPath };
+    return { pkg: JSON.parse(readText(pkgPath, trustedRoot)), pkgPath };
   } catch (e) {
     return { error: `invalid package.json (${pkgPath}): ${e?.message || e}`, exitCode: 2 };
   }

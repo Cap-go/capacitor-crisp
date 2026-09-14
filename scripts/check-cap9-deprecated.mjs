@@ -121,20 +121,20 @@ function collectScanRoots(pluginDir, pkg) {
   const roots = [];
   if (cap.android) {
     const androidSrc = path.join(pluginDir, "android", "src");
-    if (exists(androidSrc)) roots.push(androidSrc);
+    if (exists(androidSrc, pluginDir)) roots.push(androidSrc);
   }
   if (cap.ios) {
     const iosSources = path.join(pluginDir, "ios", "Sources");
     const iosDir = path.join(pluginDir, "ios");
-    if (exists(iosSources)) roots.push(iosSources);
-    else if (exists(iosDir)) roots.push(iosDir);
+    if (exists(iosSources, pluginDir)) roots.push(iosSources);
+    else if (exists(iosDir, pluginDir)) roots.push(iosDir);
   }
   return roots;
 }
 
-function scanFile(filePath, rulesForExt) {
+function scanFile(filePath, rulesForExt, trustedRoot) {
   const hits = [];
-  const lines = readText(filePath).split(/\r?\n/);
+  const lines = readText(filePath, trustedRoot).split(/\r?\n/);
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     if (lineLooksCommentOnly(line)) continue;
@@ -147,7 +147,12 @@ function scanFile(filePath, rulesForExt) {
   return hits;
 }
 
-const { dir: pluginDir } = parsePluginDirArg(process.argv);
+const parsedDir = parsePluginDirArg(process.argv);
+if (parsedDir.error) {
+  console.error(`[cap9-deprecated] ERROR: ${parsedDir.error}`);
+  process.exit(parsedDir.exitCode);
+}
+const pluginDir = parsedDir.dir;
 const loaded = loadPluginPackage(pluginDir);
 if (loaded.error) {
   console.error(`[cap9-deprecated] ERROR: ${loaded.error}`);
@@ -173,7 +178,7 @@ for (const root of scanRoots) {
     const ext = path.extname(file);
     const rulesForExt = RULES.filter((r) => r.exts.includes(ext));
     if (!rulesForExt.length) continue;
-    for (const hit of scanFile(file, rulesForExt)) {
+    for (const hit of scanFile(file, rulesForExt, pluginDir)) {
       violations.push({ file, ...hit });
     }
   }
