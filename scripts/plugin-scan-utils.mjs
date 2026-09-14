@@ -69,18 +69,38 @@ export function walkFiles(rootDir, exts, options = {}) {
   if (!fs.existsSync(trustedRoot)) {
     return [];
   }
-  const ignore = [...skipDirs].map((name) => `**/${name}/**`);
   const out = [];
-  for (const ext of exts) {
-    const matches = fs.globSync(`**/*${ext}`, {
-      cwd: trustedRoot,
-      exclude: ignore,
-    });
-    for (const rel of matches) {
-      const full = path.join(trustedRoot, rel);
+  const stack = [trustedRoot];
+  while (stack.length) {
+    const dir = stack.pop();
+    if (!isInsideRoot(trustedRoot, dir)) {
+      continue;
+    }
+    let entries;
+    try {
+      entries = fs.readdirSync(dir, { withFileTypes: true });
+    } catch (error) {
+      if (process.env.DEBUG_PLUGIN_SCAN === "1") {
+        console.debug(`[plugin-scan] skip unreadable dir ${dir}: ${error?.message || error}`);
+      }
+      continue;
+    }
+    for (const entry of entries) {
+      const full = path.join(dir, entry.name);
       if (!isInsideRoot(trustedRoot, full)) continue;
+      if (entry.isDirectory()) {
+        if (skipDirs.has(entry.name)) continue;
+        stack.push(full);
+        continue;
+      }
+      if (!entry.isFile()) continue;
       if (skipFile(full)) continue;
-      out.push(full);
+      for (const ext of exts) {
+        if (entry.name.endsWith(ext)) {
+          out.push(full);
+          break;
+        }
+      }
     }
   }
   return [...new Set(out)].sort();

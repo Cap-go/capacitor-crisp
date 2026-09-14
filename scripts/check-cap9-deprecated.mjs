@@ -7,7 +7,6 @@
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import rules from "./cap9-deprecated-rules.json" with { type: "json" };
 import {
   exists,
   lineLooksCommentOnly,
@@ -77,6 +76,15 @@ if (!cap.android && !cap.ios) {
   process.exit(0);
 }
 
+let rules;
+try {
+  rules = JSON.parse(readText(path.join(scriptDir, "cap9-deprecated-rules.json"), pluginDir));
+} catch (error) {
+  console.error(
+    `[cap9-deprecated] ERROR: invalid ${path.join(scriptDir, "cap9-deprecated-rules.json")}: ${error?.message || error}`,
+  );
+  process.exit(2);
+}
 if (!Array.isArray(rules) || !rules.length) {
   console.error(`[cap9-deprecated] ERROR: missing rules in ${path.join(scriptDir, "cap9-deprecated-rules.json")}`);
   process.exit(2);
