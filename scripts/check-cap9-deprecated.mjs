@@ -42,30 +42,78 @@ function collectScanRoots(pluginDir, pkg) {
 }
 
 function stripLineForScan(rawLine, state) {
-  let line = rawLine;
+  let out = "";
+  let i = 0;
+  const line = rawLine;
+
   if (state.inBlockComment) {
     const end = line.indexOf("*/");
     if (end === -1) {
       return "";
     }
     state.inBlockComment = false;
-    line = line.slice(end + 2);
+    i = end + 2;
   }
-  while (line.includes("/*")) {
-    const start = line.indexOf("/*");
-    const end = line.indexOf("*/", start + 2);
-    if (end === -1) {
-      state.inBlockComment = true;
-      line = line.slice(0, start);
+
+  while (i < line.length) {
+    if (state.inBlockComment) {
+      const end = line.indexOf("*/", i);
+      if (end === -1) {
+        state.inBlockComment = true;
+        return out;
+      }
+      state.inBlockComment = false;
+      i = end + 2;
+      continue;
+    }
+
+    if (state.inString) {
+      const ch = line[i];
+      out += ch;
+      if (state.escaped) {
+        state.escaped = false;
+        i++;
+        continue;
+      }
+      if (ch === "\\") {
+        state.escaped = true;
+        i++;
+        continue;
+      }
+      if (ch === state.inString) {
+        state.inString = "";
+      }
+      i++;
+      continue;
+    }
+
+    if (line.startsWith("/*", i)) {
+      const end = line.indexOf("*/", i + 2);
+      if (end === -1) {
+        state.inBlockComment = true;
+        return out;
+      }
+      i = end + 2;
+      continue;
+    }
+
+    if (line.startsWith("//", i)) {
       break;
     }
-    line = line.slice(0, start) + line.slice(end + 2);
+
+    const ch = line[i];
+    if (ch === '"' || ch === "'") {
+      state.inString = ch;
+      out += ch;
+      i++;
+      continue;
+    }
+
+    out += ch;
+    i++;
   }
-  const slash = line.indexOf("//");
-  if (slash !== -1) {
-    line = line.slice(0, slash);
-  }
-  return line;
+
+  return out;
 }
 
 function scanFile(filePath, rulesForExt, trustedRoot) {
@@ -73,7 +121,7 @@ function scanFile(filePath, rulesForExt, trustedRoot) {
   const content = readText(filePath, trustedRoot);
   if (!content) return hits;
   const lines = content.split(/\r?\n/);
-  const state = { inBlockComment: false };
+  const state = { inBlockComment: false, inString: "", escaped: false };
   for (let i = 0; i < lines.length; i++) {
     const line = stripLineForScan(lines[i], state);
     if (!line.trim() || lineLooksCommentOnly(line)) continue;

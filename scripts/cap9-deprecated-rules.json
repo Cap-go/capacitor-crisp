@@ -57,7 +57,8 @@
   {
     "id": "android-plugin-hasPermission-string",
     "exts": [".java", ".kt"],
-    "needles": ["hasPermission(\""],
+    "needles": ["hasPermission(", "hasPermission ("],
+    "excludeNeedles": ["checkSelfPermission(", "requestPermission"],
     "hint": "Use getPermissionState(String), getPermissionStates(), or ActivityCompat.checkSelfPermission()."
   },
   {
