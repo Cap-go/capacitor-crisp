@@ -42,8 +42,24 @@ export function exists(filePath, trustedRoot) {
   return fs.existsSync(filePath);
 }
 
-export function parsePluginDirArg(_argv) {
-  return { dir: path.resolve(process.cwd()) };
+export function parsePluginDirArg(argv) {
+  const cwd = path.resolve(process.cwd());
+  let dir = cwd;
+  for (let i = 2; i < argv.length; i++) {
+    const a = argv[i];
+    if (a === "--dir" || a === "--pluginDir") {
+      dir = path.resolve(cwd, argv[++i] || ".");
+      break;
+    }
+  }
+  if (!isInsideRoot(cwd, dir)) {
+    return {
+      error: "--dir must resolve inside the current working directory",
+      exitCode: 2,
+      dir: cwd,
+    };
+  }
+  return { dir };
 }
 
 function readDirEntries(dir) {

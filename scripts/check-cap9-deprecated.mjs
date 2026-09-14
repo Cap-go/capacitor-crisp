@@ -41,17 +41,45 @@ function collectScanRoots(pluginDir, pkg) {
   return roots;
 }
 
+function stripLineForScan(rawLine, state) {
+  let line = rawLine;
+  if (state.inBlockComment) {
+    const end = line.indexOf("*/");
+    if (end === -1) {
+      return "";
+    }
+    state.inBlockComment = false;
+    line = line.slice(end + 2);
+  }
+  while (line.includes("/*")) {
+    const start = line.indexOf("/*");
+    const end = line.indexOf("*/", start + 2);
+    if (end === -1) {
+      state.inBlockComment = true;
+      line = line.slice(0, start);
+      break;
+    }
+    line = line.slice(0, start) + line.slice(end + 2);
+  }
+  const slash = line.indexOf("//");
+  if (slash !== -1) {
+    line = line.slice(0, slash);
+  }
+  return line;
+}
+
 function scanFile(filePath, rulesForExt, trustedRoot) {
   const hits = [];
   const content = readText(filePath, trustedRoot);
   if (!content) return hits;
   const lines = content.split(/\r?\n/);
+  const state = { inBlockComment: false };
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    if (lineLooksCommentOnly(line)) continue;
+    const line = stripLineForScan(lines[i], state);
+    if (!line.trim() || lineLooksCommentOnly(line)) continue;
     for (const rule of rulesForExt) {
       if (lineMatchesRule(line, rule)) {
-        hits.push({ rule, line: i + 1, text: line.trim() });
+        hits.push({ rule, line: i + 1, text: lines[i].trim() });
       }
     }
   }

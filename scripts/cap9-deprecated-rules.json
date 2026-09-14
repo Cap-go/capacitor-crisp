@@ -55,6 +55,12 @@
     "hint": "Use PluginCall.release(Bridge) instead of freeSavedCall()."
   },
   {
+    "id": "android-plugin-hasPermission-string",
+    "exts": [".java", ".kt"],
+    "needles": ["hasPermission(\""],
+    "hint": "Use getPermissionState(String), getPermissionStates(), or ActivityCompat.checkSelfPermission()."
+  },
+  {
     "id": "android-https-interceptor-start",
     "exts": [".java", ".kt"],
     "needles": ["CAPACITOR_HTTPS_INTERCEPTOR_START"],
