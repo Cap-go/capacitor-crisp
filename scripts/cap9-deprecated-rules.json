@@ -1,0 +1,94 @@
+[
+  {
+    "id": "plugin-call-hasOption",
+    "exts": [".java", ".kt", ".swift"],
+    "needles": [".hasOption("],
+    "hint": "Use typed accessors (getString, getInt, etc.) instead of hasOption."
+  },
+  {
+    "id": "plugin-call-save",
+    "exts": [".java", ".kt"],
+    "needles": ["call.save(", "Call.save("],
+    "hint": "Use setKeepAlive(true) instead of PluginCall.save()."
+  },
+  {
+    "id": "plugin-call-isSaved",
+    "exts": [".java", ".kt"],
+    "needles": [".isSaved("],
+    "hint": "Use isKeptAlive() instead of isSaved()."
+  },
+  {
+    "id": "plugin-call-isReleased",
+    "exts": [".java", ".kt"],
+    "needles": [".isReleased("],
+    "hint": "isReleased() was removed; released calls are managed by the bridge."
+  },
+  {
+    "id": "plugin-getConfigValue",
+    "exts": [".java", ".kt", ".swift"],
+    "needles": [".getConfigValue("],
+    "hint": "Use getConfig() and typed PluginConfig accessors."
+  },
+  {
+    "id": "android-native-plugin-annotation",
+    "exts": [".java", ".kt"],
+    "needles": ["@NativePlugin"],
+    "hint": "Use @CapacitorPlugin instead of @NativePlugin."
+  },
+  {
+    "id": "android-saveCall",
+    "exts": [".java", ".kt"],
+    "needles": ["saveCall("],
+    "excludeNeedles": ["Bridge.saveCall("],
+    "hint": "Use Bridge.saveCall(PluginCall) or PluginCall.setKeepAlive(true)."
+  },
+  {
+    "id": "android-getSavedCall-no-arg",
+    "exts": [".java", ".kt"],
+    "needles": ["getSavedCall()"],
+    "hint": "Use Bridge.getSavedCall(String) with a callback id."
+  },
+  {
+    "id": "android-freeSavedCall",
+    "exts": [".java", ".kt"],
+    "needles": ["freeSavedCall("],
+    "hint": "Use PluginCall.release(Bridge) instead of freeSavedCall()."
+  },
+  {
+    "id": "android-plugin-hasPermission-string",
+    "exts": [".java", ".kt"],
+    "needles": ["hasPermission(", "hasPermission ("],
+    "excludeNeedles": ["checkSelfPermission(", "requestPermission"],
+    "hint": "Use getPermissionState(String), getPermissionStates(), or ActivityCompat.checkSelfPermission()."
+  },
+  {
+    "id": "android-https-interceptor-start",
+    "exts": [".java", ".kt"],
+    "needles": ["CAPACITOR_HTTPS_INTERCEPTOR_START"],
+    "hint": "Use CAPACITOR_HTTP_INTERCEPTOR_START instead."
+  },
+  {
+    "id": "ios-cap-bridge-class",
+    "exts": [".swift"],
+    "needles": ["CAPBridge."],
+    "hint": "CAPBridge was removed; use Cap 9 replacements (ApplicationDelegateProxy, Notification.Name, etc.)."
+  },
+  {
+    "id": "ios-cap-notifications-enum",
+    "exts": [".swift"],
+    "needles": ["CAPNotifications"],
+    "hint": "Use Notification.Name.capacitor* constants instead of CAPNotifications."
+  },
+  {
+    "id": "ios-https-interceptor-start",
+    "exts": [".swift"],
+    "needles": ["httpsInterceptorStartIdentifier"],
+    "hint": "Use httpInterceptorStartIdentifier instead."
+  },
+  {
+    "id": "ios-getPluginConfigValue",
+    "exts": [".swift"],
+    "needles": [".getPluginConfigValue("],
+    "hint": "Use getPluginConfig(_:) instead."
+  }
+]
