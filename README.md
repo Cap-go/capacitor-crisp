@@ -1,11 +1,28 @@
 # capacitor-crisp
-<a href="https://capgo.app/"><img src="https://capgo.app/readme-banner.svg?repo=Cap-go/capacitor-crisp" alt="Capgo - Instant updates for Capacitor" /></a>
+
+Add Crisp live chat to your Capacitor app with the native Crisp SDKs. Open the messenger, identify users, push events and handle Crisp push notifications on iOS and Android.
+
+<a href="https://capgo.app/?ref=plugin_crisp"><img src="https://capgo.app/readme-banner.svg?repo=Cap-go/capacitor-crisp" alt="Capgo - Instant updates for Capacitor" /></a>
 
 <div align="center">
-  <h2><a href="https://capgo.app/?ref=plugin_crisp"> ➡️ Get Instant updates for your App with Capgo</a></h2>
-  <h2><a href="https://capgo.app/consulting/?ref=plugin_crisp"> Missing a feature? We’ll build the plugin for you 💪</a></h2>
+  <p><b>Capgo</b>: open-source live updates for Ionic and Capacitor apps. Ship OTA fixes and features instantly, without waiting for app store review.</p>
+  <h2><a href="https://capgo.app/register/?ref=plugin_crisp">➡️ Get started for free</a></h2>
+  <p>14-day unlimited free trial. No credit card required</p>
+  <p><a href="https://capgo.app/consulting/?ref=plugin_crisp">Missing a feature? We'll build the plugin for you 💪</a></p>
 </div>
-Crisp native SDK for capacitor
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Cap-go/capacitor-crisp/main/assets/github-social-preview.png" alt="@capgo/capacitor-crisp for Capacitor apps" width="300" />
+</p>
+
+## Key features
+
+- **Messenger**: `configure()` with your website ID, then `openMessenger()`.
+- **User data**: `setUser()`, `setCompany()`, `setTokenID()`, `setSegment()` and custom `setString()` or `setInt()` fields.
+- **Events and messages**: `pushEvent()`, `sendMessage()` and listeners like `messageReceived` and `chatOpened`.
+- **Push notifications**: `registerPushToken()`, `isCrispPushNotification()` and `handlePushNotification()`.
+- **Sessions**: `reset()` clears the current session.
+- **Platforms**: iOS and Android. Native Crisp SDKs on iOS and Android. Push helpers are not available on web.
 
 ## Why Capacitor Crisp?
 
