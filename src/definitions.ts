@@ -5,16 +5,7 @@ import type { PluginListenerHandle } from '@capacitor/core';
  * Used to visually categorize events in the Crisp dashboard.
  */
 export type eventColor =
-  | 'red'
-  | 'orange'
-  | 'yellow'
-  | 'green'
-  | 'blue'
-  | 'purple'
-  | 'pink'
-  | 'brown'
-  | 'grey'
-  | 'black';
+  'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink' | 'brown' | 'grey' | 'black';
 
 /**
  * Configuration for initializing Crisp.
