@@ -63,6 +63,14 @@ public class CapacitorCrispPlugin extends Plugin {
         public void onMessageReceived(Message message) {
             notifyCrispEvent("messageReceived", getMessageEvent(message));
         }
+
+        @Override
+        public void onNotificationReceived(Map<String, String> data) {
+            if (!CrispNotificationClient.isCrispNotification(data)) {
+                return;
+            }
+            notifyCrispEvent("messageReceived", getPushMessageEvent());
+        }
     };
 
     @Override

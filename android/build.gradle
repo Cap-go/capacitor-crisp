@@ -55,7 +55,7 @@ dependencies {
     implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     testImplementation "junit:junit:$junitVersion"
-    implementation 'im.crisp:crisp-sdk:2.0.21'
+    implementation 'im.crisp:crisp-sdk:2.0.24'
     compileOnly 'com.google.firebase:firebase-messaging:24.1.2'
     implementation 'androidx.multidex:multidex:2.0.1'
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
