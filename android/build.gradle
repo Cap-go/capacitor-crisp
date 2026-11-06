@@ -49,6 +49,13 @@ repositories {
     mavenCentral()
 }
 
+// im.crisp:crisp-sdk brings firebase-messaging transitively; align with the version we compile against so
+// debugCompileClasspath and debugRuntimeClasspath resolve consistently (Gradle consistent resolution).
+configurations.configureEach {
+    resolutionStrategy {
+        force 'com.google.firebase:firebase-messaging:26.0.1'
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
