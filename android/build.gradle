@@ -53,7 +53,7 @@ repositories {
 // debugCompileClasspath and debugRuntimeClasspath resolve consistently (Gradle consistent resolution).
 configurations.configureEach {
     resolutionStrategy {
-        force 'com.google.firebase:firebase-messaging:26.0.1'
+        force 'com.google.firebase:firebase-messaging:26.0.2'
     }
 }
 
@@ -63,7 +63,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     testImplementation "junit:junit:$junitVersion"
     implementation 'im.crisp:crisp-sdk:2.0.25'
-    compileOnly 'com.google.firebase:firebase-messaging:26.0.1'
+    compileOnly 'com.google.firebase:firebase-messaging:26.0.2'
     implementation 'androidx.multidex:multidex:2.0.1'
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
